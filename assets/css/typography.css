@@ -1,0 +1,73 @@
+
+@font-face {
+    font-family: 'Yekan';
+    src: url('../fonts/Yekan/BYekan.eot');
+    src: url('../fonts/Yekan/BYekan.eot') format('embedded-opentype'),
+         url('../fonts/Yekan/BYekan.woff') format('woff'),
+         url('../fonts/Yekan/BYekan.ttf') format('truetype'),
+         url('../fonts/Yekan/BYekan.svg#Yekan') format('svg');      
+}
+
+@font-face {
+    font-family: 'Lalezar';
+    src: url('../fonts/Lalezar/Lalezar-Regular.eot');
+    src: url('../fonts/Lalezar/Lalezar-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Lalezar/Lalezar-Regular.woff2') format('woff2'),
+        url('../fonts/Lalezar/Lalezar-Regular.woff') format('woff'),
+        url('../fonts/Lalezar/Lalezar-Regular.ttf') format('truetype'),
+        url('../fonts/Lalezar/Lalezar-Regular.svg#Lalezar-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+html {font-size: 16px;}
+
+body {
+  background-color: white;
+  font-family: 'Yekan';
+  font-weight: 400;
+  line-height: 1.45;
+  color: #333;
+}
+
+p {margin-bottom: 1.25em;}
+
+.text-2x{
+  font-size:1.2em;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0.75rem 0 1rem;
+  font-family: 'Lalezar';
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+h1.alter, h2.alter, h3.alter, h4.alter, h5.alter {  
+  font-family: 'Yekan';  
+}
+
+h1.color,h2.color,h3.color,h4.color,h5.color,h6.color{
+  color:#0489cc;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.052em;
+}
+
+h2 {font-size: 2.441em;}
+
+h3 {font-size: 1.953em;}
+
+h4 {font-size: 1.563em;}
+
+h5 {font-size: 1.25em;}
+
+small, .text_small {font-size: 0.8em;}
+
+.bold{
+  font-weight: bold;
+}
