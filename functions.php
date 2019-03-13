@@ -33,10 +33,7 @@ spl_autoload_register('ClassAutoloader');
 
 $init = new DPT_Initializer();
 
-function FrontPageHeader() {
-    global $init;
-    $init->FrontPageHeader();
-}
+
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
