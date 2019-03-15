@@ -28,6 +28,7 @@
         <header class="xs-header">
             <div class="container position-relative">
                 <nav class="navbar navbar-expand-lg navbar-dark">
+                    
                     <a class="navbar-brand" href="#">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="">
                     </a>
@@ -36,47 +37,24 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">صفحه اصلی</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">
-                                    محصولات
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">محصول 1</a>
-                                    <a class="dropdown-item" href="#">محصول 2</a>
-                                    <a class="dropdown-item" href="#">محصول 3</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">مقالات</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">گالری</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">درباره ما</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">ارتباط با ما</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">اخبار</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">دریافت نمایندگی</a>
-                            </li>
+                    
+                    <?php
+                    wp_nav_menu(array(
+                        "container_class" => "collapse navbar-collapse",
+                        'theme_location' => 'homepage',
+                        "container_id" => 'navbarSupportedContent',
+                        "container" => "",
+                        "menu_class" => "navbar-nav",
+                        'walker' => new DPT_Bootstrap_Walker_Nav_Menu(),
+                            )
+                    );
+                    ?>
+                    
                             <li class="nav-item search-nav-item">
                                 <a class="nav-link">
                                     <i class="fa fa-search"></i>
                                 </a>
                             </li>
-                        </ul>
-                    </div>
                 </nav>
                 <div class="row">
                     <div class="col-lg-6 co-sm-12 home-header-content">
