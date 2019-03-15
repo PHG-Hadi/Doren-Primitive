@@ -1,5 +1,5 @@
 <?php
-get_template_part('template-parts/front-page/custom','header');
+get_template_part('template-parts/front-page/custom', 'header');
 ?>
 <div class="search-overlay">
     <div class="container text-center position-relative">
@@ -15,14 +15,12 @@ get_template_part('template-parts/front-page/custom','header');
     </div>
 </div>
 
-<!--  feature section -->
-<?php get_template_part('template-parts/front-page/feature','section') ?>
-<!-- end  feature section -->
 
-<!-- why-us section -->
-<section class="why-us">
-    <?php get_template_part('template-part/custom-header/why','use'); ?>
-</section><!-- end why-us section -->
+<?php get_template_part('template-parts/front-page/feature', 'section') ?>
+
+
+
+<?php get_template_part('template-parts/front-page/why', 'use'); ?>
 
 <!--  creative comunication section -->
 <section>
@@ -56,5 +54,4 @@ get_template_part('template-parts/front-page/custom','header');
         </div><!-- .row END -->
     </div><!-- .container END -->
 </section>
-
 <?php get_footer(); ?>
