@@ -15,17 +15,19 @@ class DPT_Menus {
     }
 
     function FrontPage() {
+        wp_nonce_field();
         ?>
-        <div class="container">
+        <div class="container dpt">
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
             <form action="admin.php?page=front-page" method="post" novalidate="">
-                <label for="">hi</label>
-                <div class="form-group">
-                    
+                
+                <div class="form-group" id="design-section" name="front_design_section">
+                    <label for="design-section">بخش طراحی</label>
                     <textarea class="form-control" name="" rows="6">
                         
                     </textarea>
                 </div>
-                <button class="btn btn-primary">submit</button>
+                <button class="btn btn-primary" name="dpt_home_page">ذخیره</button>
             </form>
         </div>
             <?php

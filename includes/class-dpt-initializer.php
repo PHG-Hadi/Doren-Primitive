@@ -22,6 +22,7 @@ class DPT_Initializer {
         wp_enqueue_script("jquery", get_template_directory_uri() . "/assets/js/jquery-3.3.1.min.js", array(), null, TRUE);
         wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/js/bootstrap.min.js", array(), null, FALSE);
         wp_enqueue_script("main", get_template_directory_uri() . "/assets/js/main.js", array(), null, TRUE);
+        wp_enqueue_script("prpper", get_template_directory_uri() . "/assets/js/propper.min.js", array(), null, TRUE);
     }
 
     public function AdminStyleScriptLoader() {
