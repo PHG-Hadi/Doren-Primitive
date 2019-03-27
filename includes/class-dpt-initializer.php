@@ -1,5 +1,10 @@
 <?php
 
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class DPT_Initializer {
 
     function __construct() {
@@ -8,10 +13,20 @@ class DPT_Initializer {
         add_action('widgets_init', array($this, 'FooterWidgets'));
         add_theme_support('sidebar');
         add_theme_support('menus');
+        add_theme_support('post-thumbnails');
         add_action('init', array($this, 'PostTypes'), 0);
         add_theme_support('custom-background');
         add_action('after_setup_theme', array($this, 'RegisterNavBars'));
-        add_action('admin_menu',array($this,'Menus'));
+        add_action('admin_menu', array($this, 'Menus'));
+        add_action('init', array($this, 'ShortCodes'));
+        if (is_admin()) {
+            add_action('load-post.php', array($this, 'MetaBoxes'));
+            add_action('load-post-new.php', array($this, 'MetaBoxes'));
+        }
+    }
+
+    public function MetaBoxes() {
+        new DPT_Product_Meta_Box();
     }
 
     public function StyleScriptLoader() {
@@ -22,7 +37,7 @@ class DPT_Initializer {
         wp_enqueue_script("jquery", get_template_directory_uri() . "/assets/js/jquery-3.3.1.min.js", array(), null, TRUE);
         wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/js/bootstrap.min.js", array(), null, FALSE);
         wp_enqueue_script("main", get_template_directory_uri() . "/assets/js/main.js", array(), null, TRUE);
-        wp_enqueue_script("prpper", get_template_directory_uri() . "/assets/js/propper.min.js", array(), null, TRUE);
+        wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
     }
 
     public function AdminStyleScriptLoader() {
@@ -31,6 +46,7 @@ class DPT_Initializer {
             wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/js/bootstrap.min.js", array(), null, FALSE);
         }
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
+        wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
     }
 
     public function FooterWidgets() {
@@ -190,7 +206,16 @@ class DPT_Initializer {
             'has_archive' => true,
             'hierarchical' => false,
             'menu_position' => null,
-            'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
+            'supports' => array(
+                'title',
+                'editor',
+                'author',
+                'thumbnail',
+                'excerpt',
+                'custom-fields',
+                'revisions',
+                'post-formats',
+            ),
         );
 
         register_post_type('portfolio', $pargs);
@@ -207,6 +232,10 @@ class DPT_Initializer {
         $menu = new DPT_Menus();
         $menu->Menus();
         $menu->SubMenus();
+    }
+
+    function ShortCodes() {
+        new DPT_Shortcodes();
     }
 
 }

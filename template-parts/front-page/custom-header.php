@@ -2,9 +2,10 @@
 <html class="no-js" <?php language_attributes(); ?>>
     <head>
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta charset="<?php bloginfo('charset'); ?>">
+        <link rel="canonical" href="<?php echo get_site_url(); ?>">
+        <meta name="Description" content="<?php   bloginfo('description'); ?>">
         <title><?php bloginfo('name'); ?>  <?php is_home() ? "|" . bloginfo('description') : wp_title(''); ?></title>
         <?php wp_head(); ?>
     </head>
@@ -56,11 +57,6 @@
                     );
                     ?>
                     
-                            <li class="nav-item search-nav-item">
-                                <a class="nav-link">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </li>
                 </nav>
                 <div class="row">
                     <div class="col-lg-6 co-sm-12 home-header-content">
