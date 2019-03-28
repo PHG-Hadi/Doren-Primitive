@@ -19,12 +19,7 @@ class DPT_Product_Meta_Box {
 
         if (in_array($post_type, $post_types)) {
             add_meta_box(
-                    'product_meta_box',
-                    'اطلاعات تکمیلی',
-                    array($this, 'RenderProductMetaBox'),
-                    $post_type,
-                    'advanced',
-                    'high'
+                    'product_meta_box', 'اطلاعات تکمیلی', array($this, 'RenderProductMetaBox'), $post_type, 'advanced', 'high'
             );
         }
     }
@@ -98,43 +93,86 @@ class DPT_Product_Meta_Box {
         ?>
         <div class="container">
             <h2>اطلاعات تکمیلی</h2>
-            <br>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div id="home" class="container tab-pane active">
-                    <h3>HOME</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <br />
+            <?php
+            $params = array(
+                'gallery' => array(
+                    'title' => 'گالری',
+                    'content' => '<div class="row">
+                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="">زهرا</label>
+                        <input type="text" name="" id="" class="form-control" value="" placeholder="">
+                    </div>
                 </div>
-                <div id="menu1" class="container tab-pane fade">
-                    <h3>Menu 1</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="">هادی</label>
+                        <input type="text" name="" id="" class="form-control" value="" placeholder="">
+                    </div>
                 </div>
-                <div id="menu2" class="container tab-pane fade">
-                    <h3>Menu 2</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                </div>
-            </div>
+            </div>',
+                    'active' => 'Yes'
+                ),
+                'facilities' => array(
+                    'title' => 'امکانات',
+                    'content' => '',
+                    'active' => 'No'
+                ),
+                'usage' => array(
+                    'title' => 'موارد استفاده',
+                    'content' => '',
+                    'active' => 'No'
+                ),
+                'sale-terms' => array(
+                    'title' => 'شرایط فروش',
+                    'content' => '',
+                    'active' => 'No'
+                ),
+                'guarantee' => array(
+                    'title' => 'شرایط خدمات پس از فروش',
+                    'content' => '',
+                    'active' => 'No'
+                ),
+            );
+            $this->ExtraItems($params);
+            ?>
         </div>
         <?php
+    }
+
+    public function ExtraItems($params) {
+
+        $data = '<!-- Nav tabs -->'
+                . '<ul class="nav nav-tabs" role="tablist">';
+
+        foreach ($params as $k => $v) {
+            if ($v['active'] == 'Yes') {
+                $data .= '<li class="nav-item">'
+                        . '<a class="nav-link active" data-toggle="tab" href="#' . $k . '">' . $v['title'] . '</a>'
+                        . '</li>';
+            } elseif ($v['active'] == 'No') {
+                $data .= '<li class="nav-item">'
+                        . '<a class="nav-link" data-toggle="tab" href="#' . $k . '">' . $v['title'] . '</a>'
+                        . '</li>';
+            }
+        }
+        $data .= '</ul>';
+        $data .= '<!-- Tab panes -->'
+                . '<div class="tab-content">';
+        foreach ($params as $k1 => $v1) {
+            if ($v1['active'] == 'Yes') {
+                $data .= '<div id="' . $k1 . '" class="container tab-pane active">';
+            } elseif ($v1['active'] == 'No') {
+                $data .= '<div id ="' . $k1 . '" class = "container tab-pane fade">';
+            }
+            $data .= '<br />'
+                    . '<h3>' . $v1['title'] . '</h3>'
+                    . $v1['content']
+                    . '</div>';
+        }
+        $data .= '</div>';
+        print($data);
     }
 
 }
