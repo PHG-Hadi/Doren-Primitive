@@ -193,5 +193,45 @@ class DPT_Bootstrap_Walker_Nav_Menu extends Walker_Nav_Menu {
             $output .= "</li>\n";
         }
     }
+    
+    public static function fallback( $args ) {
+			if ( current_user_can( 'edit_theme_options' ) ) {
+				/* Get Arguments. */
+				$container       = $args['container'];
+				$container_id    = $args['container_id'];
+				$container_class = $args['container_class'];
+				$menu_class      = $args['menu_class'];
+				$menu_id         = $args['menu_id'];
+				// initialize var to store fallback html.
+				$fallback_output = '';
+				if ( $container ) {
+					$fallback_output .= '<' . esc_attr( $container );
+					if ( $container_id ) {
+						$fallback_output .= ' id="' . esc_attr( $container_id ) . '"';
+					}
+					if ( $container_class ) {
+						$fallback_output .= ' class="' . esc_attr( $container_class ) . '"';
+					}
+					$fallback_output .= '>';
+				}
+				$fallback_output .= '<ul';
+				if ( $menu_id ) {
+					$fallback_output .= ' id="' . esc_attr( $menu_id ) . '"'; }
+				if ( $menu_class ) {
+					$fallback_output .= ' class="' . esc_attr( $menu_class ) . '"'; }
+				$fallback_output .= '>';
+				$fallback_output .= '<li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" title="' . esc_attr__( 'Add a menu', 'futurio' ) . '">' . esc_html__( 'Add a menu', 'futurio' ) . '</a></li>';
+				$fallback_output .= '</ul>';
+				if ( $container ) {
+					$fallback_output .= '</' . esc_attr( $container ) . '>';
+				}
+				// if $args has 'echo' key and it's true echo, otherwise return.
+				if ( array_key_exists( 'echo', $args ) && $args['echo'] ) {
+					echo $fallback_output; // WPCS: XSS OK.
+				} else {
+					return $fallback_output;
+				}
+			}
+		}
 
 }

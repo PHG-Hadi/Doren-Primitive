@@ -46,6 +46,8 @@
 
                     
                     <?php
+                            do_action("nnn");
+                    
                     wp_nav_menu(array(
                         "container_class" => "collapse navbar-collapse",
                         'theme_location' => 'homepage',
@@ -53,6 +55,7 @@
                         "container" => "div",
                         "menu_class" => "navbar-nav",
                         'walker' => new DPT_Bootstrap_Walker_Nav_Menu(),
+                        'fallback_cb' => 'DPT_Bootstrap_Walker_Nav_Menu::fallback',
                             )
                     );
                     ?>
