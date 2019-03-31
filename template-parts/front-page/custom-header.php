@@ -14,7 +14,7 @@
         
         <?php
         global $pars_touch_options;
-        $pars_touch_options = get_option('pars_touch_options');
+        $pars_touch_options = get_option('dpt_theme_touch_options');
         ?>
         
         <!--[if lt IE 10]>
@@ -36,7 +36,7 @@
             <div class="container position-relative">
                 <nav class="navbar navbar-expand-lg navbar-dark">
                     
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="<?php echo  get_site_url(); ?>">
                         <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/logo.png" alt="">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

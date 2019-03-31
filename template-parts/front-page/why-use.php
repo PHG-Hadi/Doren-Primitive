@@ -1,3 +1,6 @@
+<?php
+$pars_touch_options = get_option('dpt_theme_touch_options');
+?>
 <!-- why-us section -->
 <section class="why-us">
     <div class="container">
@@ -34,7 +37,8 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
                             <?php
-                            !empty($pars_touch_options['design']) ? print($pars_touch_options['design']) : "";
+                            !empty($pars_touch_options['front']['dpt_design_section']) ? print($pars_touch_options['fornt']['dpt_design_section']) : "";
+                            print_r($pars_touch_options);
                             ?>
                             <!--                            <ol>
                                                             <li class="col-sm-12">

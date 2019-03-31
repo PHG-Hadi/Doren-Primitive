@@ -22,6 +22,7 @@ class DPT_Initializer {
         if (is_admin()) {
             add_action('load-post.php', array($this, 'MetaBoxes'));
             add_action('load-post-new.php', array($this, 'MetaBoxes'));
+            add_action('plugins_loaded', array($this, 'FormHandlerInit'));
         }
     }
 
@@ -44,7 +45,11 @@ class DPT_Initializer {
         if (is_rtl()) {
             wp_enqueue_style("bootstrp", get_template_directory_uri() . "/assets/css/bootstrap.min.css", array(), null, 'all');
             wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/js/bootstrap.min.js", array(), null, FALSE);
+        } else {
+            wp_enqueue_style("bootstrp", get_template_directory_uri() . "/assets/ltr/css/bootstrap.min.css", array(), null, 'all');
+            wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/ltr/js/bootstrap.min.js", array(), null, FALSE);
         }
+        wp_enqueue_style("admin-style", get_template_directory_uri() . "/assets/css/admin-style.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
         wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
     }
@@ -236,6 +241,10 @@ class DPT_Initializer {
 
     function ShortCodes() {
         new DPT_Shortcodes();
+    }
+
+    function FormHandlerInit() {
+        new DPT_From_Handlers();
     }
 
 }

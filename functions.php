@@ -1,8 +1,10 @@
 <?php
+
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
     exit;
 }
+
 function ClassAutoloader($class_name) {
 
     /**
@@ -36,5 +38,7 @@ spl_autoload_register('ClassAutoloader');
 
 $init = new DPT_Initializer();
 
-
+add_filter('nonce_life', function () {
+    return 1 * HOUR_IN_SECONDS;
+});
 
