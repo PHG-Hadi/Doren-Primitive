@@ -24,9 +24,14 @@ class DPT_Initializer {
             add_action('load-post-new.php', array($this, 'MetaBoxes'));
             add_action('plugins_loaded', array($this, 'FormHandlerInit'));
         }
-        add_action('init',array($this,'InitFormHandlers'));
+        add_action('init',array($this,'test'));
     }
 
+    function test() {
+        $x = new DPT_From_Handlers();
+        $x->init();
+    }
+    
     public function MetaBoxes() {
         new DPT_Product_Meta_Box();
     }
@@ -240,11 +245,6 @@ class DPT_Initializer {
 
     function ShortCodes() {
         new DPT_Shortcodes();
-    }
-
-    function FormHandlerInit() {
-        $forms = new DPT_From_Handlers();
-        $forms->init();
     }
 
 }

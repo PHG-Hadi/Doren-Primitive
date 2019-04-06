@@ -36,11 +36,8 @@ $pars_touch_options = get_option('dpt_theme_touch_options');
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
-                            <?php
-                            !empty($pars_touch_options['front']['dpt_design_section']) ? print($pars_touch_options['fornt']['dpt_design_section']) : "";
-                            print_r($pars_touch_options);
-                            ?>
-                            <!--                            <ol>
+                            <?php  echo base64_decode($pars_touch_options['front']['dpt_design_section']) ?>
+<!--                                                        <ol>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
                                                                     <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/inventory.png" />
@@ -59,7 +56,7 @@ $pars_touch_options = get_option('dpt_theme_touch_options');
                                                             </li>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
-                                                                    <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/shipping.png" />
+                                                                    <img src="http://localhost/main/wp-content/themes/pars/assets/images/shipping.png" />
                                                                 </div>
                                                                 <div class="col-md-10 col-sm-12">
                                                                     <h3>در اندازه ‌ی دلخواه شما</h3>
