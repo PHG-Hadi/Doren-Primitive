@@ -24,6 +24,7 @@ class DPT_Initializer {
             add_action('load-post-new.php', array($this, 'MetaBoxes'));
             add_action('plugins_loaded', array($this, 'FormHandlerInit'));
         }
+        add_action('init',array($this,'InitFormHandlers'));
     }
 
     public function MetaBoxes() {
@@ -108,8 +109,6 @@ class DPT_Initializer {
     }
 
     public function PostTypes() {
-
-
         $labels = array(
             'name' => 'محصولات',
             'singular_name' => 'محصولات',
@@ -244,7 +243,8 @@ class DPT_Initializer {
     }
 
     function FormHandlerInit() {
-        new DPT_From_Handlers();
+        $forms = new DPT_From_Handlers();
+        $forms->init();
     }
 
 }
