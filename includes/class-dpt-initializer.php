@@ -5,6 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once( ABSPATH . '/wp-content/themes/pars/libs/Duplicate-Input-Fields-jQuery-Repeatable/example/Repopulator.php' );
+
 class DPT_Initializer {
 
     function __construct() {
@@ -24,14 +26,14 @@ class DPT_Initializer {
             add_action('load-post-new.php', array($this, 'MetaBoxes'));
             add_action('plugins_loaded', array($this, 'FormHandlerInit'));
         }
-        add_action('init',array($this,'test'));
+        add_action('init', array($this, 'test'));
     }
 
     function test() {
         $x = new DPT_From_Handlers();
         $x->init();
     }
-    
+
     public function MetaBoxes() {
         new DPT_Product_Meta_Box();
     }
@@ -58,6 +60,7 @@ class DPT_Initializer {
         wp_enqueue_style("admin-style", get_template_directory_uri() . "/assets/css/admin-style.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
         wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
+        wp_enqueue_script("repeatable", get_template_directory_uri() . "/libs/Duplicate-Input-Fields-jQuery-Repeatable/jquery.repeatable.js", array(), null, TRUE);
     }
 
     public function FooterWidgets() {
