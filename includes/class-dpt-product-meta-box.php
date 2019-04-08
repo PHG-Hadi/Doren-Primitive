@@ -30,6 +30,7 @@ class DPT_Product_Meta_Box {
      * @param int $post_id The ID of the post being saved.
      */
     public function Save($post_id) {
+        global $post;
         /*
          * We need to verify this came from the our screen and with proper authorization,
          * because save_post can be triggered at other times.
@@ -71,7 +72,16 @@ class DPT_Product_Meta_Box {
         // Sanitize the user input.
         $mydata['gallery']['first'] = sanitize_text_field($_POST['product_gallery_pic_1']);
         $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, "specific_new") !== FALSE || strpos($key, "specific_detail_new") !== FALSE) {
+                $xps [$key] = $value;
+            }
+        }
 
+        $mydata['usage'] = $_POST['product_usage_elements'];
+        $mydata['facilities'] = $xps;
+        $mydata['sale-terms'] = $_POST['sale_terms_editor'];
+        $mydata['guarantee'] = $_POST['guarantee_editor'];
         // Update the meta field.
         update_post_meta($post_id, 'product_meta', $mydata);
     }
@@ -99,15 +109,65 @@ class DPT_Product_Meta_Box {
             )
         );
         foreach ($array as $k => $v) {
-            $img[$k] = $this->Value($v);
+            $img[$k] = $this->ImgUrlValue($v);
+        }
+
+        if (empty($_POST['product_usage_elements']) && $value['usage']) {
+            $u1 = "";
+        } elseif (!empty($value['usage'])) {
+            $u1 = $value['usage'];
+        } elseif (!empty($_POST['product_usage_elements'])) {
+            $u1 = $_POST['product_usage_elements'];
         }
 
         // Display the form, using the current value.
         ?>
-        <div class="container dpt">
+        <div class="container-fluid dpt">
             <h2>اطلاعات تکمیلی</h2>
             <br />
             <?php
+            $count = 0;
+            if (!empty($value['facilities'])) {
+
+                $co .= "<div class='row'>";
+                foreach ($value['facilities'] as $kk => $vv) {
+
+                    if (strpos($kk, "specific_new") !== FALSE) {
+                        $co .= '<div class="form-group col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+                            <label for="' . $kk . '">ویژگی</label>
+                            <input type="text" class="span6 form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+                            </div>';
+                        $count = str_replace('specific_new', "", $kk);
+                    }
+                    if (strpos($kk, "specific_detail_new") !== FALSE) {
+                        $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
+                            <label for="' . $kk . '">توضیح ویژگی</label>
+                            <input type="text" class="form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+                            </div>';
+                        $count = str_replace('specific_detail_new', "", $kk);
+                    }
+                }
+                $co .= "</div>";
+            }
+            $co .= '<fieldset class="todos_labels">
+					<div class="repeatable">' . Repopulator::repopulate("todos_labels", $_POST, $count) . '</div>
+					<div class="form-group">
+						<input type="button" value="افزودن" class="btn btn-default add" />
+					</div>
+				</fieldset>
+                                <script type="text/template" id="todos_labels">' . Repopulator::$templates["todos_labels"]
+                    . '</script>'
+                    . '<script>
+		$(function() {
+			$(".todos_labels .repeatable").repeatable({
+				addTrigger: ".todos_labels .add",
+				deleteTrigger: ".todos_labels .delete",
+				template: "#todos_labels",
+				startWith: 1,
+				max: 5
+			});
+		});
+		</script>';
             $params = array(
                 'gallery' => array(
                     'title' => 'گالری',
@@ -129,50 +189,60 @@ class DPT_Product_Meta_Box {
                 ),
                 'facilities' => array(
                     'title' => 'امکانات',
-                    'content' => '<fieldset class="todos_labels">
-					<div class="repeatable">'.Repopulator::repopulate("todos_labels", $_POST).'</div>
-					<div class="form-group">
-						<input type="button" value="افزودن" class="btn btn-default add" />
-					</div>
-				</fieldset>
-                                <script type="text/template" id="todos_labels">'.Repopulator::$templates["todos_labels"] 
-		.'</script>'
-                    . '<script>
-		$(function() {
-			$(".todos_labels .repeatable").repeatable({
-				addTrigger: ".todos_labels .add",
-				deleteTrigger: ".todos_labels .delete",
-				template: "#todos_labels",
-				startWith: 1,
-				max: 5
-			});
-		});
-		</script>',
+                    'content' => $co,
                     'active' => 'No'
                 ),
                 'usage' => array(
                     'title' => 'موارد استفاده',
-                    'content' => '',
+                    'content' => '<div class="row">
+                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="product-usage-elements">موارد استفاده</label>
+                        <input type="text" name="product_usage_elements" id="product-usage-elements" class="form-control" value="' . $u1 . '" placeholder="">
+                            <p>جدا کننده هر مورد , می باشد.</p>
+                    </div>
+                </div>
+                </div>',
                     'active' => 'No'
                 ),
-                'sale-terms' => array(
-                    'title' => 'شرایط فروش',
-                    'content' => '',
-                    'active' => 'No'
-                ),
-                'guarantee' => array(
-                    'title' => 'شرایط خدمات پس از فروش',
-                    'content' => '',
-                    'active' => 'No'
-                ),
+                    /* 'sale-terms' => array(
+                      'title' => 'شرایط فروش',
+                      'content' => '',
+                      'active' => 'No'
+                      ),
+                      'guarantee' => array(
+                      'title' => 'شرایط خدمات پس از فروش',
+                      'content' => '',
+                      'active' => 'No'
+                      ), */
             );
+
             $this->ExtraItems($params);
             ?>
         </div>
+        <hr>
+        <h4>شرایط فروش</h4>
         <?php
+        $settings = array(
+            'teeny' => true,
+            'textarea_rows' => 15,
+            'tabindex' => 1
+        );
+
+
+        $editor_id = 'sale_terms_editor';
+        $uploaded_csv = get_post_meta($post->ID, 'product_meta', true);
+        wp_editor($uploaded_csv['sale-terms'], $editor_id);
+
+        echo "<hr/>"
+        . "<h4>شرایط خدمات پس از فروش</h4>";
+
+        $editor_id = 'guarantee_editor';
+        $uploaded_csv = get_post_meta($post->ID, 'product_meta', true);
+        wp_editor($uploaded_csv['guarantee'], $editor_id);
     }
 
-    public function Value($args) {
+    public function ImgUrlValue($args) {
         $r = "";
         if (!empty($args['option'])) {
             $r = $args['option'];
