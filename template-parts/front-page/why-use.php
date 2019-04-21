@@ -1,5 +1,5 @@
 <?php
-$pars_touch_options = get_option('dpt_theme_touch_options');
+$option = get_option('dpt_theme_touch_options');
 ?>
 <!-- why-us section -->
 <section class="why-us">
@@ -15,28 +15,29 @@ $pars_touch_options = get_option('dpt_theme_touch_options');
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#design" role="tab" aria-controls="design"
                                aria-selected="true">
-                                <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/why-design.png" />
+                                <!--<img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-design.png" />-->
+                                <img src="<?php echo !empty($option['front']['DesignSectionLogo'])?  $option['front']['DesignSectionLogo']:  "";?>" />
                                 <h3>طراحی</h3>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#services" role="tab" aria-controls="design"
                                aria-selected="false">
-                                <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/why-services.png" />
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-services.png" />
                                 <h3>خدمات</h3>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#performance" role="tab" aria-controls="design"
                                aria-selected="false">
-                                <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/why-performance.png" />
+                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-performance.png" />
                                 <h3>کارایی</h3>
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
-                            <?php  echo base64_decode($pars_touch_options['front']['dpt_design_section']) ?>
+                            <?php  echo $option['front']['design-section'] ?>
 <!--                                                        <ol>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
@@ -80,13 +81,13 @@ $pars_touch_options = get_option('dpt_theme_touch_options');
                         </div>
                         <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
                             <?php
-                            !empty($pars_touch_options['Services']) ? print($pars_touch_options['Services']) : "";
+                            !empty($option['Services']) ? print($option['Services']) : "";
                             ?>
 
                         </div>
                         <div class="tab-pane fade" id="performance" role="tabpanel" aria-labelledby="performance-tab">
                             <?php
-                            !empty($pars_touch_options['Performance']) ? print($pars_touch_options['Performance']) : "";
+                            !empty($option['Performance']) ? print($option['Performance']) : "";
                             ?>
 
                         </div>

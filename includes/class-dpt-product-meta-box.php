@@ -15,7 +15,7 @@ class DPT_Product_Meta_Box {
      */
     public function AddProductMetaBox($post_type) {
         // Limit meta box to certain post types.
-        $post_types = array('product');
+        $post_types = array('doren_product');
 
         if (in_array($post_type, $post_types)) {
             add_meta_box(
@@ -57,7 +57,7 @@ class DPT_Product_Meta_Box {
         }
 
         // Check the user's permissions.
-        if ('product' == $_POST['post_type']) {
+        if ('doren_product' == $_POST['post_type']) {
             if (!current_user_can('edit_page', $post_id)) {
                 return $post_id;
             }
@@ -100,11 +100,11 @@ class DPT_Product_Meta_Box {
         $value = get_post_meta($post->ID, 'product_meta', true);
         $array = array(
             'first' => array(
-                'post' => $_POST['product_gallery_pic_1'],
+                'post' => '',//$_POST['product_gallery_pic_1'],
                 'option' => $value['gallery']['first']
             ),
             'second' => array(
-                'post' => $_POST['product_gallery_pic_2'],
+                'post' => '',//$_POST['product_gallery_pic_2'],
                 'option' => $value['gallery']['second']
             )
         );
@@ -127,6 +127,7 @@ class DPT_Product_Meta_Box {
             <br />
             <?php
             $count = 0;
+            $co ='';
             if (!empty($value['facilities'])) {
 
                 $co .= "<div class='row'>";

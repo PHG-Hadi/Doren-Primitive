@@ -13,8 +13,8 @@
     <body <?php body_class(); ?>>
         
         <?php
-        global $pars_touch_options;
-        $pars_touch_options = get_option('dpt_theme_touch_options');
+        global $options;
+        $options = get_option('dpt_theme_touch_options');
         ?>
         
         <!--[if lt IE 10]>
@@ -37,7 +37,7 @@
                 <nav class="navbar navbar-expand-lg navbar-dark">
                     
                     <a class="navbar-brand" href="<?php echo  get_site_url(); ?>">
-                        <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/logo.png" alt="">
+                        <img src="<?php if($options['front']['DPFrontPageLogo']){echo  $options['front']['DPFrontPageLogo'];}else{echo "#";} ?>" alt="Logo">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="نمایش منو">
@@ -46,11 +46,9 @@
 
                     
                     <?php
-                            do_action("nnn");
-                    
                     wp_nav_menu(array(
                         "container_class" => "collapse navbar-collapse",
-                        'theme_location' => 'homepage',
+                        'theme_location' => 'home-page-top',
                         "container_id" => 'navbarSupportedContent',
                         "container" => "div",
                         "menu_class" => "navbar-nav",
@@ -81,22 +79,29 @@
 
                     <div class="col-lg-6 co-sm-12 home-header-objects d-none d-md-block">
                         <div class="header-obj particles">
-                            <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-particles.png" alt="Particles" />
+                            <img src="<?php echo  get_template_directory_uri(); ?>/assets/images/home-header-particles.png" alt="Particles" />
                         </div>
                         <div class="header-obj ctx">
-                            <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-context.png" alt="Parstouch Interactive Solutions" />
+                            <img src="<?php echo  get_template_directory_uri(); ?>/assets/images/home-header-context.png" alt="Parstouch Interactive Solutions" />
                         </div>
                         <div class="header-obj wall">
-                            <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-wall.png" alt="Parstouch Video Wall" />
+                            <img src="<?php echo  get_template_directory_uri(); ?>/assets/images/home-header-wall.png" alt="Parstouch Video Wall" />
                         </div>
                         <div class="header-obj kiosk">
-                            <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-kiosk.png" alt="Parstouch Kiosk" />
+                            <img src="<?php echo  get_template_directory_uri(); ?>/assets/images/home-header-kiosk.png" alt="Parstouch Kiosk" />
                         </div>
                         <div class="header-obj stand">
-                            <img src="<?php echo  get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-stand.png" alt="Parstouch Stands" />
+                            <img src="<?php echo  get_template_directory_uri(); ?>/assets/images/home-header-stand.png" alt="Parstouch Stands" />
                         </div>
                     </div>
 
                 </div>
             </div><!-- .container END -->
         </header><!-- End header section -->
+        <?php
+        echo "<br />";
+        echo "<br />";
+        echo "<br />";
+        echo "<br />";
+        print_r(get_option('dpt_theme_touch_options'));
+        ?>

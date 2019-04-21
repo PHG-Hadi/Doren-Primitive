@@ -1,5 +1,5 @@
 <!--  feature section -->
-    <section>
+<!--    <section>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -20,7 +20,7 @@
                         بردارد.
                     </p>
                     <p class="text-right">
-                        <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/brands.png" alt="KMI Brands" height="64" class="img-h-100" />
+                        <img src="http://localhost/main/wp-content/themes/Doren-Primitive/assets/images/brands.png" alt="KMI Brands" height="64" class="img-h-100" />
                     </p>
                     <div class="text-right">
                         <div class="big-blue-btn">
@@ -30,8 +30,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12 text-center">
-                    <a href="#"><img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/video.png" alt="Parstouch Introduction" /></a>
+                    <a href="#"><img src="http://localhost/main/wp-content/themes/Doren-Primitive/assets/images/video.png" alt="Parstouch Introduction" /></a>
                 </div>
             </div>
-        </div><!-- .container END -->
-    </section><!-- end  feature section -->
+        </div> .container END 
+    </section> end  feature section -->
+
+<?php
+if(!empty(get_option('dpt_theme_touch_options')['front']['front_feature_section'])){
+    echo get_option('dpt_theme_touch_options')['front']['front_feature_section'];
+}
+?>
