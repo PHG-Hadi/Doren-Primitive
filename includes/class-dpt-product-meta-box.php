@@ -224,11 +224,6 @@ class DPT_Product_Meta_Box {
         <hr>
         <h4>شرایط فروش</h4>
         <?php
-        $settings = array(
-            'teeny' => true,
-            'textarea_rows' => 15,
-            'tabindex' => 1
-        );
 
 
         $editor_id = 'sale_terms_editor';

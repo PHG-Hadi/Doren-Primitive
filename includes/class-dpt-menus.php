@@ -11,24 +11,39 @@ class DPT_Menus {
     }
 
     function Main($args) {
+
+        if ($_GET['page'] == $args['page']) {
+            get_template_part('admin/' . $args['first_phrase'], $args['second_phrase']);
+        }
+    }
+
+    function FrontPage() {
         print('<div class="container dpt">');
         echo'<h1>' . esc_html(get_admin_page_title());
         echo '</h1>';
         do_action('DP_errors');
-        if ($_GET['page'] == $args['page']) {
-            get_template_part('admin/' . $args['first_phrase'], $args['second_phrase']);
-        }
-        print('</div>');
-    }
+        $option = get_option('dpt_theme_touch_options');
 
-    function FrontPage() {
-        $this->Main(
-                array(
-                    'page' => 'front-page',
-                    'first_phrase' => 'Front',
-                    'second_phrase' => 'Page',
-                )
+
+        $AllP = array(
+            'DPFrontPageLogo',
+            'top_section',
+            'feature_section',
+            'DesignSectionLogo',
+            'performance_section',
+            'services_section',
+            'design_section'
         );
+        $v = array();
+        require_once get_template_directory()."/admin/Front-Page.php";
+//        $this->Main(
+//                array(
+//                    'page' => 'front-page',
+//                    'first_phrase' => 'Front',
+//                    'second_phrase' => 'Page',
+//                )
+//        );
+        print('</div>');
     }
 
 }

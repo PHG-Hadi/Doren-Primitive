@@ -17,7 +17,7 @@ class DPT_Initializer {
         add_theme_support('sidebar');
         add_theme_support('menus');
         add_theme_support('post-thumbnails');
-        add_action('init', array($this, 'PostTypes'), 0);
+//        add_action('init', array($this, 'PostTypes'), 0);
         add_theme_support('custom-background');
         add_action('after_setup_theme', array($this, 'RegisterNavBars'));
         add_action('admin_menu', array($this, 'Menus'));
@@ -117,6 +117,7 @@ class DPT_Initializer {
                     'after_title' => '</h2>',
                 )
         );
+        
     }
 
     public function PostTypes() {
@@ -238,7 +239,7 @@ class DPT_Initializer {
 
     function RegisterNavBars() {
         register_nav_menus(array(
-            "home-page-top" => __('Home Page Top','doren')
+            "home-page-top" => __('Home Page Top', 'doren')
                 )
         );
     }
