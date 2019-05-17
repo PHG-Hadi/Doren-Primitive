@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <header class="container text-left">
             <?php

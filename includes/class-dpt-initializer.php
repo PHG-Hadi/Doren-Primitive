@@ -17,7 +17,7 @@ class DPT_Initializer {
         add_theme_support('sidebar');
         add_theme_support('menus');
         add_theme_support('post-thumbnails');
-//        add_action('init', array($this, 'PostTypes'), 0);
+        add_action('init', array($this, 'PostTypes'), 0);
         add_theme_support('custom-background');
         add_action('after_setup_theme', array($this, 'RegisterNavBars'));
         add_action('admin_menu', array($this, 'Menus'));
@@ -28,6 +28,11 @@ class DPT_Initializer {
             add_action('plugins_loaded', array($this, 'FormHandlerInit'));
         }
         add_action('init', array($this, 'InitHandlers'));
+        add_action('admin_enqueue_scripts', function () {
+            if (is_admin())
+                wp_enqueue_media();
+        });
+        add_action('init', array($this, 'MenuShortcodeInitializer'));
     }
 
     function InitHandlers() {
@@ -40,12 +45,14 @@ class DPT_Initializer {
     }
 
     public function StyleScriptLoader() {
-
         wp_enqueue_style("bootstrp", get_template_directory_uri() . "/assets/css/bootstrap.min.css", array(), null, 'all');
+        wp_enqueue_style("typography", get_template_directory_uri() . "/assets/css/typography.css", array(), null, 'all');
+        wp_enqueue_style("owl", get_template_directory_uri() . "/assets/css/owl.carousel.min.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
         wp_enqueue_style("main", get_template_directory_uri() . "/assets/css/style.css", array(), null, 'all');
         wp_enqueue_script("jquery", get_template_directory_uri() . "/assets/js/jquery-3.3.1.min.js", array(), null, TRUE);
         wp_enqueue_script("bootstrap", get_template_directory_uri() . "/assets/js/bootstrap.min.js", array(), null, FALSE);
+        wp_enqueue_script("owl", get_template_directory_uri() . "/assets/js/owl.carousel.min.js", array(), null, FALSE);
         wp_enqueue_script("main", get_template_directory_uri() . "/assets/js/main.js", array(), null, TRUE);
         wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
     }
@@ -61,7 +68,7 @@ class DPT_Initializer {
         wp_enqueue_style("admin-style", get_template_directory_uri() . "/assets/css/admin-style.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
         wp_enqueue_script("popper", get_template_directory_uri() . "/assets/js/popper.min.js", array(), null, TRUE);
-        if (get_post_type() == 'doren_product'):
+        if (get_post_type() == 'products'):
             wp_enqueue_script("repeatable", get_template_directory_uri() . "/libs/Duplicate-Input-Fields-jQuery-Repeatable/jquery.repeatable.js", array(), null, TRUE);
         endif;
     }
@@ -117,7 +124,6 @@ class DPT_Initializer {
                     'after_title' => '</h2>',
                 )
         );
-        
     }
 
     public function PostTypes() {
@@ -147,7 +153,7 @@ class DPT_Initializer {
             'show_ui' => true,
             'show_in_menu' => true,
             'query_var' => true,
-            'rewrite' => array('slug' => 'doren_product'),
+            'rewrite' => array('slug' => 'products'),
             'capability_type' => 'post',
             'has_archive' => true,
             'hierarchical' => false,
@@ -155,7 +161,7 @@ class DPT_Initializer {
             'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
         );
 
-        register_post_type('doren_product', $args);
+        register_post_type('products', $args);
         $clabels = array(
             'name' => 'مشتریان',
             'singular_name' => 'مشتری',
@@ -252,6 +258,53 @@ class DPT_Initializer {
 
     function ShortCodes() {
         new DPT_Shortcodes();
+    }
+
+    function MenuShortcodeInitializer() {
+
+// If this file is called directly, abort.
+        if (!defined('ABSPATH')) {
+            exit;
+        }
+
+        if (!defined('GS_SIM_PATH')) {
+            /**
+             * Path to the plugin directory.
+             *
+             * @since 3.2
+             */
+            define('GS_SIM_PATH', trailingslashit(get_template_directory() . "/shortcode-in-menus/"));
+        }
+        if (!defined('GS_SIM_URL')) {
+            /**
+             * URL to the plugin directory.
+             *
+             * @since 3.2
+             */
+            define('GS_SIM_URL', trailingslashit(get_template_directory_uri() . "/shortcode-in-menus/"));
+        }
+        if (!defined('GS_SIM_RES')) {
+            /**
+             * Resource version for busting cache.
+             *
+             * @since 3.5
+             */
+            define('GS_SIM_RES', 1.0);
+        }
+        /**
+         * The core plugin class
+         */
+        require_once GS_SIM_PATH . 'includes/class-shortcode-in-menus.php';
+
+        /**
+         * Load the admin class if its the admin dashboard
+         */
+        if (is_admin()) {
+            require_once GS_SIM_PATH . 'admin/class-shortcode-in-menus-admin.php';
+            Shortcode_In_Menus_Admin::get_instance();
+        } else {
+            Shortcode_In_Menus::get_instance();
+        }
     }
 
 }

@@ -53,6 +53,22 @@ h1.color,h2.color,h3.color,h4.color,h5.color,h6.color{
   color:#0489cc;
 }
 
+a h1.color:hover,
+a h2.color:hover,
+a h3.color:hover,
+a h4.color:hover,
+a h5.color:hover,
+a h6.color:hover{
+  color:#01d5bf;
+}
+
+a {
+  text-decoration:none !important;
+  transition:all 0.2s linear;
+  -webkit-transition:all 0.2s linear;
+  -moz-transition:all 0.2s linear;
+}
+
 h1 {
   margin-top: 0;
   font-size: 3.052em;

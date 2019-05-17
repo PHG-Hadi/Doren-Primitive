@@ -15,7 +15,7 @@ class DPT_Product_Meta_Box {
      */
     public function AddProductMetaBox($post_type) {
         // Limit meta box to certain post types.
-        $post_types = array('doren_product');
+        $post_types = array('products');
 
         if (in_array($post_type, $post_types)) {
             add_meta_box(
@@ -57,7 +57,7 @@ class DPT_Product_Meta_Box {
         }
 
         // Check the user's permissions.
-        if ('doren_product' == $_POST['post_type']) {
+        if ('products' == $_POST['post_type']) {
             if (!current_user_can('edit_page', $post_id)) {
                 return $post_id;
             }
@@ -68,10 +68,11 @@ class DPT_Product_Meta_Box {
         }
 
         /* OK, it's safe for us to save the data now. */
-
         // Sanitize the user input.
         $mydata['gallery']['first'] = sanitize_text_field($_POST['product_gallery_pic_1']);
         $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
+        $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
+        $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
         foreach ($_POST as $key => $value) {
             if (strpos($key, "specific_new") !== FALSE || strpos($key, "specific_detail_new") !== FALSE) {
                 $xps [$key] = $value;
@@ -100,26 +101,41 @@ class DPT_Product_Meta_Box {
         $value = get_post_meta($post->ID, 'product_meta', true);
         $array = array(
             'first' => array(
-                'post' => '',//$_POST['product_gallery_pic_1'],
-                'option' => $value['gallery']['first']
+                'post' => '', //$_POST['product_gallery_pic_1'],
+                'option' => !empty($value['gallery']['first']) ? $value['gallery']['first'] : ""
             ),
             'second' => array(
-                'post' => '',//$_POST['product_gallery_pic_2'],
-                'option' => $value['gallery']['second']
+                'post' => '', //$_POST['product_gallery_pic_2'],
+                'option' => !empty($value['gallery']['second']) ? $value['gallery']['second'] : ""
             )
         );
         foreach ($array as $k => $v) {
             $img[$k] = $this->ImgUrlValue($v);
         }
-
-        if (empty($_POST['product_usage_elements']) && $value['usage']) {
-            $u1 = "";
-        } elseif (!empty($value['usage'])) {
-            $u1 = $value['usage'];
-        } elseif (!empty($_POST['product_usage_elements'])) {
-            $u1 = $_POST['product_usage_elements'];
+        $u1 = "";
+        if (!empty($value['usage'])) {
+            if (!empty($value['usage'])) {
+                $u1 = $value['usage'];
+            } elseif (!empty($_POST['product_usage_elements'])) {
+                $u1 = $_POST['product_usage_elements'];
+            }
         }
-
+        
+        
+        if (!empty($value['product_picture'])) {
+            if (!empty($value['product_picture'])) {
+                $u5 = $value['product_picture'];
+            } elseif (!empty($_POST['product_picture'])) {
+                $u5 = $_POST['product_picture'];
+            }
+        }
+        if (!empty($value['product_background_img'])) {
+            if (!empty($value['product_background_img'])) {
+                $u6 = $value['product_background_img'];
+            } elseif (!empty($_POST['product_background_img'])) {
+                $u6 = $_POST['product_background_img'];
+            }
+        }
         // Display the form, using the current value.
         ?>
         <div class="container-fluid dpt">
@@ -127,7 +143,7 @@ class DPT_Product_Meta_Box {
             <br />
             <?php
             $count = 0;
-            $co ='';
+            $co = '';
             if (!empty($value['facilities'])) {
 
                 $co .= "<div class='row'>";
@@ -153,7 +169,7 @@ class DPT_Product_Meta_Box {
             $co .= '<fieldset class="todos_labels">
 					<div class="repeatable">' . Repopulator::repopulate("todos_labels", $_POST, $count) . '</div>
 					<div class="form-group">
-						<input type="button" value="افزودن" class="btn btn-default add" />
+						<input type="button" value="دکمه" class="btn btn-default add" />
 					</div>
 				</fieldset>
                                 <script type="text/template" id="todos_labels">' . Repopulator::$templates["todos_labels"]
@@ -169,6 +185,31 @@ class DPT_Product_Meta_Box {
 			});
 		});
 		</script>';
+            ?>
+            <script>
+                jQuery(document).ready(function () {
+                    var $ = jQuery;
+                    if ($('.set_custom_images').length > 0) {
+                        if (typeof wp !== 'undefined' && wp.media && wp.media.editor) {
+                            $(document).on('click', '.set_custom_images', function (e) {
+                                e.preventDefault();
+                                var button = $(this);
+                                var id = button.prev();
+                                wp.media.editor.send.attachment = function (props, attachment) {
+                                    id.val(attachment.id);
+                                };
+                                wp.media.editor.open(button);
+                                return false;
+                            });
+                        }
+                    }
+                });
+            </script>
+            <p>
+                <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="" max="" min="1" step="1">
+                <button class="set_custom_images button">Set Image ID</button>
+            </p>
+            <?php
             $params = array(
                 'gallery' => array(
                     'title' => 'گالری',
@@ -206,36 +247,36 @@ class DPT_Product_Meta_Box {
                 </div>',
                     'active' => 'No'
                 ),
-                    /* 'sale-terms' => array(
-                      'title' => 'شرایط فروش',
-                      'content' => '',
-                      'active' => 'No'
-                      ),
-                      'guarantee' => array(
-                      'title' => 'شرایط خدمات پس از فروش',
-                      'content' => '',
-                      'active' => 'No'
-                      ), */
+                'product-picture' => array(
+                    'title' => 'تصویر محصول',
+                    'content' => '<div class="row">
+                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="product-picture">تصویر محصول</label>
+                        <input type="text" name="product_picture" id="product-picture" class="form-control" value="' . $u5 . '" placeholder="">
+                    </div>
+                </div>
+                </div>',
+                    'active' => 'No'
+                ),
+                'background-img' => array(
+                    'title' => 'تصویر پیش زمینه',
+                    'content' => '<div class="row">
+                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="product-background-img">تصویر پیش زمینه</label>
+                        <input type="text" name="product_background_img" id="product-background-img" class="form-control" value="' . $u6 . '" placeholder="">
+                    </div>
+                </div>
+                </div>',
+                    'active' => 'No'
+                ),
             );
 
             $this->ExtraItems($params);
             ?>
         </div>
-        <hr>
-        <h4>شرایط فروش</h4>
         <?php
-
-
-        $editor_id = 'sale_terms_editor';
-        $uploaded_csv = get_post_meta($post->ID, 'product_meta', true);
-        wp_editor($uploaded_csv['sale-terms'], $editor_id);
-
-        echo "<hr/>"
-        . "<h4>شرایط خدمات پس از فروش</h4>";
-
-        $editor_id = 'guarantee_editor';
-        $uploaded_csv = get_post_meta($post->ID, 'product_meta', true);
-        wp_editor($uploaded_csv['guarantee'], $editor_id);
     }
 
     public function ImgUrlValue($args) {
