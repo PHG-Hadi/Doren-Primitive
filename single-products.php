@@ -4,8 +4,8 @@ get_header();
 ?>
 <div>
     <?php
-    $meta = get_post_meta(get_the_id(), 'product_meta');
-    $imgurls = $meta[0]['gallery']['first'] . "," . $meta[0]['gallery']['second'];
+    $meta = get_post_meta(get_the_id(), 'product_meta')[0];
+    $imgurls = $meta['gallery']['first'] . "," . $meta['gallery']['second'];
     echo "<div class='row'>" . DPT_Shortcodes::OwlSlider(array(
         'urls' => $imgurls,
         'responsive_s' => 1,
@@ -24,16 +24,16 @@ get_header();
         <h1><?php echo get_the_title(); ?></h1>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">معرفی</a>
+                <a class="nav-link" href="#product-introduction">معرفی</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">امکانات</a>
+                <a class="nav-link" href="#product-facilities">امکانات</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">موارد استفاده</a>
+                <a class="nav-link" href="#product-uses">موارد استفاده</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">آخرین پروژه ها</a>
+                <a class="nav-link disabled" href="#latest-portfolio-products">آخرین پروژه ها</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
@@ -41,8 +41,27 @@ get_header();
         </ul>
         <?php
     }
+    ?>
+    <div class="row">
+        <div id="product-introduction" class="col-sm-12 col-md-12">
+            <?php
+            echo get_the_content();
+            ?>
+        </div>
+        <div id="product-facilities" class="col-sm-12 col-md-12">
+            <?php
+            
+            ?>
+        </div>
+        <div id="product-uses" class="col-sm-12 col-md-12">
 
-//print_r(get_post_meta(get_the_id(), 'product_meta'))[0];
+        </div>
+        <div id="latest-portfolio-products" class="col-sm-12 col-md-12">
+
+        </div>
+    </div>
+    <?php
+    print_r(get_post_meta(get_the_id(), 'product_meta')[0]['facilities']);
     ?>
 </div>
 <?php get_footer(); ?>

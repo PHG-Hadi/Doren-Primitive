@@ -47,7 +47,7 @@ class DPT_Product_Meta_Box {
         if (!wp_verify_nonce($nonce, 'product_post_type_form')) {
             return $post_id;
         }
-
+        
         /*
          * If this is an autosave, our form has not been submitted,
          * so we don't want to do anything.
@@ -206,7 +206,7 @@ class DPT_Product_Meta_Box {
                 });
             </script>
             <p>
-                <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="" max="" min="1" step="1">
+                <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="sdf" max="" min="1" step="1">
                 <button class="set_custom_images button">Set Image ID</button>
             </p>
             <?php
