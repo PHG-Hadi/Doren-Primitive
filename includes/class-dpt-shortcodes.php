@@ -10,6 +10,7 @@ class DPT_Shortcodes {
     function __construct() {
         add_shortcode('dpt-search', array($this, 'DPT_SEARCH'));
 //        add_shortcode('dpt-owl', array($this, 'OwlSlider'));
+        add_shortcode('dpt-product-form', array($this, 'DPT_Product_Form'));
     }
 
     function DPT_SEARCH() {
@@ -120,5 +121,9 @@ class DPT_Shortcodes {
 
         echo $return;
     }
-
+    
+    public function DPT_Product_Form(){
+        $data = "<div>"
+                . "</div>";
+    }
 }

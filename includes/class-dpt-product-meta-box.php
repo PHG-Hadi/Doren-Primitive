@@ -47,7 +47,7 @@ class DPT_Product_Meta_Box {
         if (!wp_verify_nonce($nonce, 'product_post_type_form')) {
             return $post_id;
         }
-        
+
         /*
          * If this is an autosave, our form has not been submitted,
          * so we don't want to do anything.
@@ -73,9 +73,12 @@ class DPT_Product_Meta_Box {
         $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
         $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
         $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
-        foreach ($_POST as $key => $value) {
-            if (strpos($key, "specific_new") !== FALSE || strpos($key, "specific_detail_new") !== FALSE) {
-                $xps [$key] = $value;
+
+        for ($i = 0; $i < 6; $i++) {
+            if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
+                $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
+            } else {
+                $xps = array();
             }
         }
 
@@ -99,6 +102,7 @@ class DPT_Product_Meta_Box {
 
         // Use get_post_meta to retrieve an existing value from the database.
         $value = get_post_meta($post->ID, 'product_meta', true);
+
         $array = array(
             'first' => array(
                 'post' => '', //$_POST['product_gallery_pic_1'],
@@ -120,8 +124,8 @@ class DPT_Product_Meta_Box {
                 $u1 = $_POST['product_usage_elements'];
             }
         }
-        
-        
+
+
         if (!empty($value['product_picture'])) {
             if (!empty($value['product_picture'])) {
                 $u5 = $value['product_picture'];
@@ -137,6 +141,7 @@ class DPT_Product_Meta_Box {
             }
         }
         // Display the form, using the current value.
+        print_r($value);
         ?>
         <div class="container-fluid dpt">
             <h2>اطلاعات تکمیلی</h2>
@@ -147,22 +152,36 @@ class DPT_Product_Meta_Box {
             if (!empty($value['facilities'])) {
 
                 $co .= "<div class='row'>";
-                foreach ($value['facilities'] as $kk => $vv) {
-
-                    if (strpos($kk, "specific_new") !== FALSE) {
+//                foreach ($value['facilities'] as $kk => $vv) {
+//
+//                    if (strpos($kk, "specific_new") !== FALSE) {
+//                        $co .= '<div class="form-group col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+//                            <label for="' . $kk . '">ویژگی</label>
+//                            <input type="text" class="span6 form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+//                            </div>';
+//                        $count = str_replace('specific_new', "", $kk);
+//                    }
+//                    if (strpos($kk, "specific_detail_new") !== FALSE) {
+//                        $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
+//                            <label for="' . $kk . '">توضیح ویژگی</label>
+//                            <input type="text" class="form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+//                            </div>';
+//                        $count = str_replace('specific_detail_new', "", $kk);
+//                    }
+//                }
+                for ($i = 0; $i < sizeof($value['facilities']); $i++) {
+                    if (sizeof($value['facilities'][$i]) == 2) {
                         $co .= '<div class="form-group col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
-                            <label for="' . $kk . '">ویژگی</label>
-                            <input type="text" class="span6 form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+                            <label for="specific-new' . $i . '">ویژگی</label>
+                            <input type="text" class="span6 form-control" name="specific_new' . $i . '"  id="specific-new' . $i . '" value="' . $value['facilities'][$i][0] . '">
                             </div>';
-                        $count = str_replace('specific_new', "", $kk);
-                    }
-                    if (strpos($kk, "specific_detail_new") !== FALSE) {
+
                         $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
-                            <label for="' . $kk . '">توضیح ویژگی</label>
-                            <input type="text" class="form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
+                            <label for="specific-detail-new' . $i. '">توضیح ویژگی</label>
+                            <input type="text" class="form-control" name="specific_detail_new' . $i. '"  id="specific-detail-new' . $i. '" value="' . $value['facilities'][$i][1] . '">
                             </div>';
                         $count = str_replace('specific_detail_new', "", $kk);
-                    }
+                    }//
                 }
                 $co .= "</div>";
             }

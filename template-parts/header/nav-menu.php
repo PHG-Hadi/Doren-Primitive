@@ -6,7 +6,7 @@
 } else {
     echo "#";
 } ?>" alt="Logo">-->
-<img src="http://172.16.0.9/main/wp-content/themes/Doren-Primitive/assets/images/logo.png">
+<img src="<?php echo get_site_url(); ?>/wp-content/themes/Doren-Primitive/assets/images/logo.png">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="نمایش منو">
