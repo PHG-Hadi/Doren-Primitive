@@ -6,14 +6,14 @@ class DPT_Product_Meta_Box {
      * Hook into the appropriate actions when the class is constructed.
      */
     public function __construct() {
-        add_action('add_meta_boxes', array($this, 'AddProductMetaBox'));
+        add_action('add_meta_boxes', array($this, 'AddMetaBox'));
         add_action('save_post', array($this, 'Save'));
     }
 
     /**
      * Adds the meta box container.
      */
-    public function AddProductMetaBox($post_type) {
+    public function AddMetaBox($post_type) {
         // Limit meta box to certain post types.
         $post_types = array('products');
 
@@ -21,6 +21,47 @@ class DPT_Product_Meta_Box {
             add_meta_box(
                     'product_meta_box', 'اطلاعات تکمیلی', array($this, 'RenderProductMetaBox'), $post_type, 'advanced', 'high'
             );
+        }
+        if (in_array($post_type, array('portfolio'))) {
+            add_meta_box(
+                    'portfolio_meta_box', __('All Products', 'dpt'), array($this, 'RenderPortfolioMetaBox'), $post_type, 'advanced', 'high'
+            );
+        }
+    }
+
+    public function RenderPortfolioMetaBox($post) {
+        wp_nonce_field('portfolio_post_type_form', 'portfolio_post_type_form_nonce');
+        $args = array(
+            'post_type' => 'products',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+        );
+        $q = new WP_Query($args);
+        $post_id = get_the_ID();
+        $p_meta = get_post_meta($post_id, 'dpt_info')[0]['product_list'];
+
+        $array = array();
+        if (!empty($p_meta)) {
+            $array = explode(',', $p_meta);
+        }
+//        print_r($p_meta[0]['product_list']);
+        if ($q->have_posts()) {
+            $form = "";
+
+            while ($q->have_posts()) {
+                $q->the_post();
+                if (in_array(get_the_ID(), $array)) {
+                    $ch = 'checked=""';
+                } else {
+                    $ch = "";
+                }
+                $form .= '<div class="form-check-inline">'
+                        . '<label class="form-check-label" for="product-check-box-' . get_the_ID() . '">'
+                        . '<input ' . $ch . ' type="checkbox" name="portfolio_product_list[]" id="product-check-box-' . get_the_ID() . '" class="form-check-input" value="' . get_the_ID() . '">' . get_the_title()
+                        . '</label>'
+                        . '</div>';
+            }
+            echo $form;
         }
     }
 
@@ -35,59 +76,107 @@ class DPT_Product_Meta_Box {
          * We need to verify this came from the our screen and with proper authorization,
          * because save_post can be triggered at other times.
          */
+        switch (get_post_type()) {
+            case "products":
 
-        // Check if our nonce is set.
-        if (!isset($_POST['product_post_type_form_nonce'])) {
-            return $post_id;
-        }
+                // Check if our nonce is set.
+                if (!isset($_POST['product_post_type_form_nonce'])) {
+                    return $post_id;
+                }
 
-        $nonce = $_POST['product_post_type_form_nonce'];
+                $nonce = $_POST['product_post_type_form_nonce'];
 
-        // Verify that the nonce is valid.
-        if (!wp_verify_nonce($nonce, 'product_post_type_form')) {
-            return $post_id;
-        }
+                // Verify that the nonce is valid.
+                if (!wp_verify_nonce($nonce, 'product_post_type_form')) {
+                    return $post_id;
+                }
 
-        /*
-         * If this is an autosave, our form has not been submitted,
-         * so we don't want to do anything.
-         */
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $post_id;
-        }
+                /*
+                 * If this is an autosave, our form has not been submitted,
+                 * so we don't want to do anything.
+                 */
+                if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+                    return $post_id;
+                }
 
-        // Check the user's permissions.
-        if ('products' == $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id)) {
-                return $post_id;
-            }
-        } else {
-            if (!current_user_can('edit_post', $post_id)) {
-                return $post_id;
-            }
-        }
+                // Check the user's permissions.
+                if ('products' == $_POST['post_type']) {
+                    if (!current_user_can('edit_page', $post_id)) {
+                        return $post_id;
+                    }
+                } else {
+                    if (!current_user_can('edit_post', $post_id)) {
+                        return $post_id;
+                    }
+                }
 
-        /* OK, it's safe for us to save the data now. */
-        // Sanitize the user input.
-        $mydata['gallery']['first'] = sanitize_text_field($_POST['product_gallery_pic_1']);
-        $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
-        $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
-        $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
-
-        for ($i = 0; $i < 6; $i++) {
-            if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
-                $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
-            } else {
+                /* OK, it's safe for us to save the data now. */
+                // Sanitize the user input.
+                $mydata['gallery']['first'] = sanitize_text_field($_POST['product_gallery_pic_1']);
+                $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
+                $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
+                $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
+                $i = 0;
                 $xps = array();
-            }
-        }
+                foreach ($_POST as $kp => $vp) {
+                    if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
+                        $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
+                    }
+                    ++$i;
+                }
 
-        $mydata['usage'] = $_POST['product_usage_elements'];
-        $mydata['facilities'] = $xps;
-        $mydata['sale-terms'] = $_POST['sale_terms_editor'];
-        $mydata['guarantee'] = $_POST['guarantee_editor'];
-        // Update the meta field.
-        update_post_meta($post_id, 'product_meta', $mydata);
+
+                $mydata['usage'] = $_POST['product_usage_elements'];
+                $mydata['facilities'] = $xps;
+                $mydata['sale-terms'] = $_POST['sale_terms_editor'];
+                $mydata['guarantee'] = $_POST['guarantee_editor'];
+                // Update the meta field.
+                update_post_meta($post_id, 'product_meta', $mydata);
+                break;
+            case "portfolio":
+                if (!isset($_POST['portfolio_post_type_form_nonce'])) {
+                    return $post_id;
+                }
+
+                $nonce = $_POST['portfolio_post_type_form_nonce'];
+
+                // Verify that the nonce is valid.
+                if (!wp_verify_nonce($nonce, 'portfolio_post_type_form')) {
+                    return $post_id;
+                }
+
+                /*
+                 * If this is an autosave, our form has not been submitted,
+                 * so we don't want to do anything.
+                 */
+                if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+                    return $post_id;
+                }
+
+                // Check the user's permissions.
+                if ('portfolio' == $_POST['post_type']) {
+                    if (!current_user_can('edit_page', $post_id)) {
+                        return $post_id;
+                    }
+                } else {
+                    if (!current_user_can('edit_post', $post_id)) {
+                        return $post_id;
+                    }
+                }
+                if (!empty($_POST['portfolio_product_list'])) {
+                    $data = array();
+                    $checkbox_count = count($_POST['portfolio_product_list']);
+                    foreach ($_POST['portfolio_product_list'] as $p_id) {
+                        if (empty($data)) {
+                            $data['product_list'] = $p_id;
+                        } else {
+                            $data['product_list'] .= ',' . $p_id;
+                        }
+                    }
+                }
+                update_post_meta($post_id, 'dpt_info', $data);
+                break;
+        }
     }
 
     /**
@@ -141,7 +230,7 @@ class DPT_Product_Meta_Box {
             }
         }
         // Display the form, using the current value.
-        print_r($value);
+//        print_r($value);
         ?>
         <div class="container-fluid dpt">
             <h2>اطلاعات تکمیلی</h2>
@@ -177,14 +266,15 @@ class DPT_Product_Meta_Box {
                             </div>';
 
                         $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
-                            <label for="specific-detail-new' . $i. '">توضیح ویژگی</label>
-                            <input type="text" class="form-control" name="specific_detail_new' . $i. '"  id="specific-detail-new' . $i. '" value="' . $value['facilities'][$i][1] . '">
+                            <label for="specific-detail-new' . $i . '">توضیح ویژگی</label>
+                            <input type="text" class="form-control" name="specific_detail_new' . $i . '"  id="specific-detail-new' . $i . '" value="' . $value['facilities'][$i][1] . '">
                             </div>';
                         $count = str_replace('specific_detail_new', "", $kk);
                     }//
                 }
                 $co .= "</div>";
             }
+            do_action("jioklokiji");
             $co .= '<fieldset class="todos_labels">
 					<div class="repeatable">' . Repopulator::repopulate("todos_labels", $_POST, $count) . '</div>
 					<div class="form-group">
@@ -205,7 +295,7 @@ class DPT_Product_Meta_Box {
 		});
 		</script>';
             ?>
-            <script>
+        <!--            <script>
                 jQuery(document).ready(function () {
                     var $ = jQuery;
                     if ($('.set_custom_images').length > 0) {
@@ -227,7 +317,7 @@ class DPT_Product_Meta_Box {
             <p>
                 <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="sdf" max="" min="1" step="1">
                 <button class="set_custom_images button">Set Image ID</button>
-            </p>
+            </p>-->
             <?php
             $params = array(
                 'gallery' => array(

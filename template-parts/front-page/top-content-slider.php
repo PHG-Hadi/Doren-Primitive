@@ -1,3 +1,7 @@
+<?php
+$template_url= get_template_directory_uri();
+?>
+
 <div class="row">
     <div class="col-lg-6 co-sm-12 home-header-content">
         <?php // echo do_shortcode('[URIS id=9]') ;?>
@@ -19,19 +23,19 @@
 
     <div class="col-lg-6 co-sm-12 home-header-objects d-none d-md-block">
         <div class="header-obj particles">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-particles.png" alt="Particles" />
+            <img src="<?php echo $template_url; ?>/assets/images/home-header-particles.png" alt="Particles" />
         </div>
         <div class="header-obj ctx">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-context.png" alt="Parstouch Interactive Solutions" />
+            <img src="<?php echo $template_url; ?>/assets/images/home-header-context.png" alt="Parstouch Interactive Solutions" />
         </div>
         <div class="header-obj wall">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-wall.png" alt="Parstouch Video Wall" />
+            <img src="<?php echo $template_url; ?>/assets/images/home-header-wall.png" alt="Parstouch Video Wall" />
         </div>
         <div class="header-obj kiosk">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-kiosk.png" alt="Parstouch Kiosk" />
+            <img src="<?php echo $template_url; ?>/assets/images/home-header-kiosk.png" alt="Parstouch Kiosk" />
         </div>
         <div class="header-obj stand">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/home-header-stand.png" alt="Parstouch Stands" />
+            <img src="<?php echo $template_url; ?>/assets/images/home-header-stand.png" alt="Parstouch Stands" />
         </div>
     </div>
 

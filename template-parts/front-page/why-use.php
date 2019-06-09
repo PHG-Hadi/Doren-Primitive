@@ -1,6 +1,8 @@
 <?php
-$option = get_option('dpt_theme_touch_options');
+	$template_url= get_template_directory_uri();
+	$option = get_option('dpt_theme_touch_options');
 ?>
+
 <!-- why-us section -->
 <section class="why-us">
     <div class="container">
@@ -14,8 +16,7 @@ $option = get_option('dpt_theme_touch_options');
                     <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#design" role="tab" aria-controls="design"
-                               aria-selected="true">
-                                <!--<img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-design.png" />-->
+                               aria-selected="true">                                
                                 <img src="<?php echo !empty($option['front']['DesignSectionLogo'])?  $option['front']['DesignSectionLogo']:  "";?>" />
                                 <h3>طراحی</h3>
                             </a>
@@ -23,14 +24,14 @@ $option = get_option('dpt_theme_touch_options');
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#services" role="tab" aria-controls="design"
                                aria-selected="false">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-services.png" />
+                                <img src="<?php echo $template_url; ?>/assets/images/why-services.png" />
                                 <h3>خدمات</h3>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#performance" role="tab" aria-controls="design"
                                aria-selected="false">
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/why-performance.png" />
+                                <img src="<?php echo $template_url; ?>/assets/images/why-performance.png" />
                                 <h3>کارایی</h3>
                             </a>
                         </li>
@@ -38,10 +39,10 @@ $option = get_option('dpt_theme_touch_options');
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
                             <?php  echo $option['front']['design-section'] ?>
-<!--                                                        <ol>
+                                                        <ol>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
-                                                                    <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/inventory.png" />
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/inventory.png" />
                                                                 </div>
                                                                 <div class="col-md-10 col-sm-12">
                                                                     <h3>در هر تعدادی که شما نیاز دارید</h3>
@@ -52,12 +53,11 @@ $option = get_option('dpt_theme_touch_options');
                                                                         هستیم.
                                                                     </p>
                                                                 </div>
-                            
-                                                                daadsasdsa
+                           
                                                             </li>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
-                                                                    <img src="http://localhost/main/wp-content/themes/pars/assets/images/shipping.png" />
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/shipping.png" />
                                                                 </div>
                                                                 <div class="col-md-10 col-sm-12">
                                                                     <h3>در اندازه ‌ی دلخواه شما</h3>
@@ -68,7 +68,7 @@ $option = get_option('dpt_theme_touch_options');
                                                             </li>
                                                             <li class="col-sm-12">
                                                                 <div class="col-md-2 col-sm-12">
-                                                                    <img src="<?php echo get_site_url(); ?>/wp-content/themes/pars/assets/images/checking.png" />
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/checking.png" />
                                                                 </div>
                                                                 <div class="col-md-10 col-sm-12">
                                                                     <h3>منطبق با آخرین استانداردهای روز دنیا</h3>
@@ -77,7 +77,7 @@ $option = get_option('dpt_theme_touch_options');
                                                                     </p>
                                                                 </div>
                                                             </li>
-                                                        </ol>-->
+                                                        </ol>
                         </div>
                         <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
                             <?php

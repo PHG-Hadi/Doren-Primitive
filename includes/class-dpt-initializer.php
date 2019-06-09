@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 require_once( ABSPATH . '/wp-content/themes/Doren-Primitive/libs/Duplicate-Input-Fields-jQuery-Repeatable/example/Repopulator.php' );
+require_once( ABSPATH . '/wp-content/themes/Doren-Primitive/libs/jdf.php' );
 require_once( ABSPATH . '/wp-content/themes/Doren-Primitive/dpt_functions.php' );
 
 class DPT_Initializer {

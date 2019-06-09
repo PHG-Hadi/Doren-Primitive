@@ -18,9 +18,10 @@ get_header();
 
 <?php get_template_part('template-parts/front-page/feature', 'section') ?>
 
-
-
 <?php get_template_part('template-parts/front-page/why', 'use'); ?>
+
+<?php get_template_part('template-parts/front-page/recent', 'blogs'); ?>
+
 
 <!--  creative comunication section -->
 <section>
