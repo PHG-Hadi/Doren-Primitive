@@ -47,6 +47,10 @@ class DPT_Initializer {
 
     public function StyleScriptLoader() {
         wp_enqueue_style("bootstrp", get_template_directory_uri() . "/assets/css/bootstrap.min.css", array(), null, 'all');
+        if (get_post_type() == 'portfolio') {
+            wp_enqueue_style("swiper", get_template_directory_uri() . "/assets/css/swiper.min.css", array(), null, 'all');
+            wp_enqueue_script("swiper", get_template_directory_uri() . "/assets/js/swiper.min.js", array(), null, FALSE);
+        }
         wp_enqueue_style("typography", get_template_directory_uri() . "/assets/css/typography.css", array(), null, 'all');
         wp_enqueue_style("owl", get_template_directory_uri() . "/assets/css/owl.carousel.min.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');

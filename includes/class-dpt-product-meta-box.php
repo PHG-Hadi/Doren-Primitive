@@ -167,6 +167,12 @@ class DPT_Product_Meta_Box {
                     $data = array();
                     $checkbox_count = count($_POST['portfolio_product_list']);
                     foreach ($_POST['portfolio_product_list'] as $p_id) {
+                        $p_option = get_post_meta($p_id, 'related_porfolio')[0];
+                        if (empty($p_option)) {
+                            update_post_meta($p_id, 'related_porfolio', $post_id);
+                        } else {
+                            update_post_meta($p_id, 'related_porfolio', $p_option . ',' . $post_id);
+                        }
                         if (empty($data)) {
                             $data['product_list'] = $p_id;
                         } else {
@@ -174,6 +180,7 @@ class DPT_Product_Meta_Box {
                         }
                     }
                 }
+
                 update_post_meta($post_id, 'dpt_info', $data);
                 break;
         }
@@ -191,7 +198,6 @@ class DPT_Product_Meta_Box {
 
         // Use get_post_meta to retrieve an existing value from the database.
         $value = get_post_meta($post->ID, 'product_meta', true);
-
         $array = array(
             'first' => array(
                 'post' => '', //$_POST['product_gallery_pic_1'],
@@ -295,7 +301,7 @@ class DPT_Product_Meta_Box {
 		});
 		</script>';
             ?>
-        <!--            <script>
+            <script>
                 jQuery(document).ready(function () {
                     var $ = jQuery;
                     if ($('.set_custom_images').length > 0) {
@@ -313,11 +319,11 @@ class DPT_Product_Meta_Box {
                         }
                     }
                 });
-            </script>
-            <p>
-                <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="sdf" max="" min="1" step="1">
-                <button class="set_custom_images button">Set Image ID</button>
-            </p>-->
+                    </script>
+                    <p>
+                        <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="sdf" max="" min="1" step="1">
+                        <button class="set_custom_images button">Set Image ID</button>
+                    </p>
             <?php
             $params = array(
                 'gallery' => array(
