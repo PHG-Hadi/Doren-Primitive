@@ -8,26 +8,21 @@ class DPT_Products {
 
     function Process($post_id) {
         $this->SetProductId($post_id);
-        $count = $this->GetFacilitiesCount();
+        $count = $this->GetFacilitiesCount($post_id);
         $s_fa = array();
         if ($count == 0) {
-            $s_fa = $this->SetFacilities($this->GetPostedFacilities());
+
+
+            $x = $this->GetPostedFacilities();
+
+            $this->SetFacilities($x);
+            $s_fa = deca_shop_traverse_array($this->GetFacilities());
         } else {
-            $this->SetFacilities($this->SavedFacilities());
-            $s_fa = $this->GetFacilities();
             $p_fa = $this->GetPostedFacilities();
-            $result = array_intersect($s_fa, $p_fa);
-            $diff = array_diff($p_fa, $result);
-            $max = absint($this->Max - sizeof($s_fa));
-            foreach ($diff as $k => $v) {
-                if ($max != 0) {
-                    $s_fa[] = $v;
-                    --$max;
-                }
-            }
+            $this->SetFacilities($p_fa);
+
+            return $this->GetFacilities();
         }
-        $this->SetFacilities($s_fa);
-        return $this->Facilities;
     }
 
     function SetProductId($post_id) {
@@ -38,9 +33,10 @@ class DPT_Products {
         return $this->ProductId;
     }
 
-    function GetFacilitiesCount() {
-        $post_id = $this->GetProductId();
-        $count = sizeof(get_post_meta($post_id, 'product_meta')[0]['facilities']);
+    function GetFacilitiesCount($post_id) {
+        $count = 0;
+        if (!empty(get_post_meta($post_id, 'product_meta')[0]['facilities']))
+            $count = sizeof(get_post_meta($post_id, 'product_meta')[0]['facilities']);
         if (empty(get_post_meta($post_id, 'product_meta')[0]['facilities']))
             $count = 0;
 
@@ -59,7 +55,7 @@ class DPT_Products {
         $i = 0;
         $xps = array();
         foreach ($_POST as $kp => $vp) {
-            if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
+            if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i]) && $i < 6) {
                 $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
             }
             ++$i;
@@ -71,19 +67,19 @@ class DPT_Products {
         return get_post_meta($this->GetProductId(), 'product_meta')[0]['facilities'];
     }
 
-}
+    function check_diff_multi($array1, $array2) {
+        $result = array();
+        foreach ($array1 as $key => $val) {
+            if (isset($array2[$key])) {
+                if (is_array($val) && $array2[$key]) {
+                    $result[$key] = $this->check_diff_multi($val, $array2[$key]);
+                }
+            } else {
+                $result[$key] = $val;
+            }
+        }
 
-/*
- * 1- i checkeck $_post with specific_new and specific_detail_new keys
- * 2- i want add 6 item into db
- * 3- if items was more than 6 display an error
- * ------------------------------------------
- * class DPT_Products
- * DPT_Products class return an array of all facilities
- * method get_count_of_facilities
- * max facilities is 6
- * need Facilities Property is private
- * in constructor product id is as param
- * get form value { $_post itteration}
- * save facilities
- */
+        return $result;
+    }
+
+}

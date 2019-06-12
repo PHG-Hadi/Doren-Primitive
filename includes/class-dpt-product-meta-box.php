@@ -37,12 +37,18 @@ class DPT_Product_Meta_Box {
             'posts_per_page' => -1,
         );
         $q = new WP_Query($args);
+        $args = array(
+            'post_type' => 'customer',
+            'post_status' => 'publish',
+            'posts_per_page' => -1
+        );
+        $c_q = new WP_Query($args);
         $post_id = get_the_ID();
-        $p_meta = get_post_meta($post_id, 'dpt_info')[0]['product_list'];
+        $p_meta = get_post_meta($post_id, 'dpt_info')[0];
 
         $array = array();
-        if (!empty($p_meta)) {
-            $array = explode(',', $p_meta);
+        if (!empty($p_meta['product_list'])) {
+            $array = explode(',', $p_meta['product_list']);
         }
 //        print_r($p_meta[0]['product_list']);
         if ($q->have_posts()) {
@@ -63,6 +69,54 @@ class DPT_Product_Meta_Box {
             }
             echo $form;
         }
+
+        if ($c_q->have_posts()) {
+            echo '<br /><br />'
+            . '<div class="form-group">'
+            . '<label for="dpt-portfolio-customer">انتخاب مشتری برای نمونه کار</label>'
+            . '<select class="form-control" id="dpt-portfolio-customer" name="dpt_portfolio_customer">'
+            . '<option value="">یک مشتری را انتخاب نمایید.</option>';
+            while ($c_q->have_posts()) {
+                $c_q->the_post();
+                if (get_the_ID() == $p_meta['customer_id']) {
+                    echo '<option value="' . get_the_ID() . '" selected="">' . get_the_title() . '</option>';
+                } else {
+                    echo '<option value="' . get_the_ID() . '" >' . get_the_title() . '</option>';
+                }
+            }
+            '</div>';
+        }
+        ?>
+        <script>
+            jQuery(document).ready(function () {
+                var $ = jQuery;
+                if ($('.set_custom_images').length > 0) {
+                    if (typeof wp !== 'undefined' && wp.media && wp.media.editor) {
+                        $(document).on('click', '.set_custom_images', function (e) {
+                            e.preventDefault();
+                            var button = $(this);
+                            var id = button.prev();
+                            wp.media.editor.send.attachment = function (props, attachment) {
+                                id.val(attachment.id);
+                            };
+                            wp.media.editor.open(button);
+                            return false;
+                        });
+                    }
+                }
+            });
+        </script>
+        <div class="form-group">
+            <label for="dpt-portfolio-gallery">گالری نمونه کار</label>
+            <input type="text" value="<?php ?>" class="regular-text process_custom_images form-control" id="dpt-portfolio-gallery" name="dpt_portfolio_gallery"> <!--max="" min="1" step="1"-->
+            <button class="set_custom_images button btn-btn-primary">انتخاب عکس ها</button>
+        </div>
+        <div class="row">
+            <?php
+            echo $this->RenderPortfolioGallery($post_id);
+            ?>
+        </div>
+        <?php
     }
 
     /**
@@ -116,7 +170,7 @@ class DPT_Product_Meta_Box {
                 $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
                 $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
                 $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
-                $products =new DPT_Products();
+                $products = new DPT_Products();
                 $xps = $products->Process($post_id);
 //                $i = 0;
 //                $xps = array();
@@ -183,6 +237,12 @@ class DPT_Product_Meta_Box {
                     }
                 }
 
+                if (!empty($_POST['dpt_portfolio_gallery'])) {
+                    $data['portfolio_gallery'] = $_POST['dpt_portfolio_gallery'];
+                }
+                if (!empty($_POST['dpt_portfolio_customer'])) {
+                    $data['customer_id'] = $_POST['dpt_portfolio_customer'];
+                }
                 update_post_meta($post_id, 'dpt_info', $data);
                 break;
         }
@@ -302,31 +362,6 @@ class DPT_Product_Meta_Box {
 			});
 		});
 		</script>';
-            ?>
-            <script>
-                jQuery(document).ready(function () {
-                    var $ = jQuery;
-                    if ($('.set_custom_images').length > 0) {
-                        if (typeof wp !== 'undefined' && wp.media && wp.media.editor) {
-                            $(document).on('click', '.set_custom_images', function (e) {
-                                e.preventDefault();
-                                var button = $(this);
-                                var id = button.prev();
-                                wp.media.editor.send.attachment = function (props, attachment) {
-                                    id.val(attachment.id);
-                                };
-                                wp.media.editor.open(button);
-                                return false;
-                            });
-                        }
-                    }
-                });
-                    </script>
-                    <p>
-                        <input type="number" value="" class="regular-text process_custom_images" id="process_custom_images" name="sdf" max="" min="1" step="1">
-                        <button class="set_custom_images button">Set Image ID</button>
-                    </p>
-            <?php
             $params = array(
                 'gallery' => array(
                     'title' => 'گالری',
@@ -439,6 +474,20 @@ class DPT_Product_Meta_Box {
         }
         $data .= '</div>';
         print($data);
+    }
+
+    public function RenderPortfolioGallery($post_id) {
+        $meta = get_post_meta($post_id, 'dpt_info')[0];
+        if (!empty($meta['portfolio_gallery'])) {
+            $gp_array = explode(',', $meta['portfolio_gallery']);
+            $img = '';
+            foreach ($gp_array as $img_id) {
+                $img .= '<div>'
+                        . wp_get_attachment_image($img_id)
+                        . '</div>';
+            }
+            echo $img;
+        }
     }
 
 }
