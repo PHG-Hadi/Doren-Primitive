@@ -116,14 +116,16 @@ class DPT_Product_Meta_Box {
                 $mydata['gallery']['second'] = sanitize_text_field($_POST['product_gallery_pic_2']);
                 $mydata['product_background_img'] = sanitize_text_field($_POST['product_background_img']);
                 $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
-                $i = 0;
-                $xps = array();
-                foreach ($_POST as $kp => $vp) {
-                    if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
-                        $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
-                    }
-                    ++$i;
-                }
+                $products =new DPT_Products();
+                $xps = $products->Process($post_id);
+//                $i = 0;
+//                $xps = array();
+//                foreach ($_POST as $kp => $vp) {
+//                    if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
+//                        $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
+//                    }
+//                    ++$i;
+//                }
 
 
                 $mydata['usage'] = $_POST['product_usage_elements'];

@@ -8,9 +8,26 @@ class DPT_Products {
 
     function Process($post_id) {
         $this->SetProductId($post_id);
-        if ($this->GetFacilitiesCount($post_id) < $this->Max) {
-            
+        $count = $this->GetFacilitiesCount();
+        $s_fa = array();
+        if ($count == 0) {
+            $s_fa = $this->SetFacilities($this->GetPostedFacilities());
+        } else {
+            $this->SetFacilities($this->SavedFacilities());
+            $s_fa = $this->GetFacilities();
+            $p_fa = $this->GetPostedFacilities();
+            $result = array_intersect($s_fa, $p_fa);
+            $diff = array_diff($p_fa, $result);
+            $max = absint($this->Max - sizeof($s_fa));
+            foreach ($diff as $k => $v) {
+                if ($max != 0) {
+                    $s_fa[] = $v;
+                    --$max;
+                }
+            }
         }
+        $this->SetFacilities($s_fa);
+        return $this->Facilities;
     }
 
     function SetProductId($post_id) {
@@ -21,7 +38,8 @@ class DPT_Products {
         return $this->ProductId;
     }
 
-    function GetFacilitiesCount($post_id) {
+    function GetFacilitiesCount() {
+        $post_id = $this->GetProductId();
         $count = sizeof(get_post_meta($post_id, 'product_meta')[0]['facilities']);
         if (empty(get_post_meta($post_id, 'product_meta')[0]['facilities']))
             $count = 0;
@@ -47,6 +65,10 @@ class DPT_Products {
             ++$i;
         }
         return $xps;
+    }
+
+    function SavedFacilities() {
+        return get_post_meta($this->GetProductId(), 'product_meta')[0]['facilities'];
     }
 
 }
