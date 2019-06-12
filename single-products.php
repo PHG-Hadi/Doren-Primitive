@@ -52,6 +52,7 @@ get_header();
         <div id="product-facilities" class="col-sm-12 col-md-12">
             <h3>امکانات</h3>
             <?php
+            
             ?>
         </div>
         <div id="product-uses" class="col-sm-12 col-md-12">
