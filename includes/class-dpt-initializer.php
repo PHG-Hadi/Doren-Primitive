@@ -34,6 +34,7 @@ class DPT_Initializer {
                 wp_enqueue_media();
         });
         add_action('init', array($this, 'MenuShortcodeInitializer'));
+        add_action('pre_get_posts', array($this, 'spigot_show_all_work'));
     }
 
     function InitHandlers() {
@@ -47,10 +48,6 @@ class DPT_Initializer {
 
     public function StyleScriptLoader() {
         wp_enqueue_style("bootstrp", get_template_directory_uri() . "/assets/css/bootstrap.min.css", array(), null, 'all');
-        if (get_post_type() == 'portfolio') {
-            wp_enqueue_style("swiper", get_template_directory_uri() . "/assets/css/swiper.min.css", array(), null, 'all');
-            wp_enqueue_script("swiper", get_template_directory_uri() . "/assets/js/swiper.min.js", array(), null, FALSE);
-        }
         wp_enqueue_style("typography", get_template_directory_uri() . "/assets/css/typography.css", array(), null, 'all');
         wp_enqueue_style("owl", get_template_directory_uri() . "/assets/css/owl.carousel.min.css", array(), null, 'all');
         wp_enqueue_style("font-awesome", get_template_directory_uri() . "/assets/css/font-awesome.min.css", array(), null, 'all');
@@ -76,6 +73,8 @@ class DPT_Initializer {
         if (get_post_type() == 'products'):
             wp_enqueue_script("repeatable", get_template_directory_uri() . "/libs/Duplicate-Input-Fields-jQuery-Repeatable/jquery.repeatable.js", array(), null, TRUE);
         endif;
+        wp_enqueue_script("main-admin", get_template_directory_uri() . "/assets/js/main-admin.js", array(), null, TRUE);
+        add_action('pre_get_posts', 'spigot_show_all_work');
     }
 
     public function FooterWidgets() {
@@ -309,6 +308,17 @@ class DPT_Initializer {
             Shortcode_In_Menus_Admin::get_instance();
         } else {
             Shortcode_In_Menus::get_instance();
+        }
+    }
+
+    function spigot_show_all_work($query) {
+
+        if (!is_admin() && $query->is_main_query()) {
+
+            if (is_post_type_archive('products')) {
+
+                $query->set('posts_per_page', -1);
+            }
         }
     }
 

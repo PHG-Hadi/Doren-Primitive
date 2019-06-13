@@ -12,7 +12,7 @@ get_header();
 <div id="content" class="container">
     <div class="row">
         <div class="col-12 col-xl-12 col-lg-12 col-md-12 clo-sm-12">
-            
+
             <header>
                 <h1 class="page-title">صفحه مورد نظر شما موجود نمی باشد.</h1>
             </header>

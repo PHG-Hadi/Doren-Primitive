@@ -109,8 +109,12 @@ class DPT_Shortcodes {
         }
 
 
-
-        $return .= '</div><script>jQuery(function(){jQuery("#' . $element_id . '"). owlCarousel({loop:true,margin:10,nav:false,autoplay:true,lazyLoad:true,dots:false,responsive:{0:{items:' . $atts['responsive_s'] . '},600:{items:' . $atts['responsive_m'] . '},1000:{items:' . $atts['responsive_l'] . '}}})})</script>';
+        if (!empty($atts['init'])) {
+            $OwlInit = $atts['init'];
+        } else {
+            $OwlInit = '#' . $element_id;
+        }
+        $return .= '</div><script>jQuery(function(){jQuery("' . $OwlInit . '"). owlCarousel({loop:true,margin:10,nav:false,autoplay:true,lazyLoad:true,dots:false,responsive:{0:{items:' . $atts['responsive_s'] . '},600:{items:' . $atts['responsive_m'] . '},1000:{items:' . $atts['responsive_l'] . '}}})})</script>';
 
 
         //    $return .= '</div><script>jQuery(function(){jQuery("#'.$element_id.'").owlCarousel({loop:true,margin:10,nav:true,responsive:{0:{items:1},600:{items:3},1000:{items:5}}})})</script>';
@@ -121,9 +125,10 @@ class DPT_Shortcodes {
 
         echo $return;
     }
-    
-    public function DPT_Product_Form(){
+
+    public function DPT_Product_Form() {
         $data = "<div>"
                 . "</div>";
     }
+
 }

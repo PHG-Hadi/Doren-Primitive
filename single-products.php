@@ -52,7 +52,6 @@ get_header();
         <div id="product-facilities" class="col-sm-12 col-md-12">
             <h3>امکانات</h3>
             <?php
-            
             ?>
         </div>
         <div id="product-uses" class="col-sm-12 col-md-12">
@@ -60,10 +59,10 @@ get_header();
         </div>
         <div id="latest-portfolio-products" class="col-sm-12 col-md-12">
             <h3>آخرین پروژه ها از این محصول</h3>
-            
+
         </div>
     </div>
-        
+
     <?php
 //    var_dump(get_post_meta(get_the_id(), 'product_meta')[0]);
     ?>

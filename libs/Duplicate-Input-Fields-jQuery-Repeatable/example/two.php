@@ -1,7 +1,5 @@
 <?php
-
 require_once("Repopulator.php");
-
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -18,73 +16,73 @@ require_once("Repopulator.php");
     </head>
     <body>
 
-    	<div class="container">
+        <div class="container">
 
-    		<div class="page-header">
-		    	<h1>Two repeatable</h1>
-		    </div>
+            <div class="page-header">
+                <h1>Two repeatable</h1>
+            </div>
 
-			<form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
-				<fieldset class="todos">
+                <fieldset class="todos">
 
-					<legend>To Do List</legend>
+                    <legend>To Do List</legend>
 
-					<div class="repeatable"><?php Repopulator::repopulate("todos", $_POST); ?></div>
-					
-					<div class="form-group">
-						<input type="button" value="Add Todo Item" class="btn btn-default add" />
-					</div>
+                    <div class="repeatable"><?php Repopulator::repopulate("todos", $_POST); ?></div>
 
-				</fieldset>
+                    <div class="form-group">
+                        <input type="button" value="Add Todo Item" class="btn btn-default add" />
+                    </div>
 
-				<fieldset class="people">
+                </fieldset>
 
-					<legend>People</legend>
+                <fieldset class="people">
 
-					<div class="repeatable"><?php Repopulator::repopulate("people", $_POST); ?></div>
-					
-					<div class="form-group">
-						<input type="button" value="Add Person" class="btn btn-default add" />
-					</div>
+                    <legend>People</legend>
 
-				</fieldset>
-				
-				<div class="form-group">
-					<input type="submit" value="Submit" class="btn btn-primary" />
-				</div>
+                    <div class="repeatable"><?php Repopulator::repopulate("people", $_POST); ?></div>
 
-			</form>
+                    <div class="form-group">
+                        <input type="button" value="Add Person" class="btn btn-default add" />
+                    </div>
 
-		</div>
+                </fieldset>
 
-		<script type="text/template" id="todos">
-		<?php echo Repopulator::$templates["todos"]; ?>
-		</script>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
 
-		<script type="text/template" id="people">
-		<?php echo Repopulator::$templates["people"]; ?>
-		</script>
+            </form>
 
-		<script>
-		$(function() {
-			$(".todos .repeatable").repeatable({
-				addTrigger: ".todos .add",
-				deleteTrigger: ".todos .add",
-				template: "#todos",
-				startWith: 1,
-				max: 5
-			});
+        </div>
 
-			$(".people .repeatable").repeatable({
-				addTrigger: ".people .add",
-				deleteTrigger: ".people .add",
-				template: "#people",
-				startWith: 1,
-				max: 3
-			});
-		});
-		</script>
+        <script type="text/template" id="todos">
+<?php echo Repopulator::$templates["todos"]; ?>
+        </script>
+
+        <script type="text/template" id="people">
+            <?php echo Repopulator::$templates["people"]; ?>
+        </script>
+
+        <script>
+            $(function () {
+                $(".todos .repeatable").repeatable({
+                    addTrigger: ".todos .add",
+                    deleteTrigger: ".todos .add",
+                    template: "#todos",
+                    startWith: 1,
+                    max: 5
+                });
+
+                $(".people .repeatable").repeatable({
+                    addTrigger: ".people .add",
+                    deleteTrigger: ".people .add",
+                    template: "#people",
+                    startWith: 1,
+                    max: 3
+                });
+            });
+        </script>
 
     </body>
 </html>

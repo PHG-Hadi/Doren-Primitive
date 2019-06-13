@@ -50,7 +50,7 @@ class DPT_Product_Meta_Box {
         if (!empty($p_meta['product_list'])) {
             $array = explode(',', $p_meta['product_list']);
         }
-//        print_r($p_meta[0]['product_list']);
+        //        print_r($p_meta[0]['product_list']);
         if ($q->have_posts()) {
             $form = "";
 
@@ -92,15 +92,33 @@ class DPT_Product_Meta_Box {
                 var $ = jQuery;
                 if ($('.set_custom_images').length > 0) {
                     if (typeof wp !== 'undefined' && wp.media && wp.media.editor) {
-                        $(document).on('click', '.set_custom_images', function (e) {
+                        var custom_uploader;
+                        $('.set_custom_images').click(function (e) {
                             e.preventDefault();
-                            var button = $(this);
-                            var id = button.prev();
-                            wp.media.editor.send.attachment = function (props, attachment) {
-                                id.val(attachment.id);
-                            };
-                            wp.media.editor.open(button);
-                            return false;
+                            //If the uploader object has already been created, reopen the dialog
+                            if (custom_uploader) {
+                                custom_uploader.open();
+                                return;
+                            }
+                            //Extend the wp.media object
+                            custom_uploader = wp.media.frames.file_frame = wp.media({
+                                title: 'انتخاب تصاویر این نمونه کار',
+                                button: {
+                                    text: 'انتخاب'
+                                },
+                                multiple: true
+                            });
+                            custom_uploader.on('select', function () {
+                                var selection = custom_uploader.state().get('selection');
+                                var ids = [];
+                                selection.map(function (attachment) {
+                                    ids.push(attachment.id);
+                                    attachment = attachment.toJSON();
+                                    $(".portfolio-gallery").append("<div class='col-sm-5' ><img style='width:100%; height:auto;max-height:356px;' src=" + attachment.url + "></div>");
+                                    $("#dpt-portfolio-gallery").val(ids.join(","));
+                                });
+                            });
+                            custom_uploader.open();
                         });
                     }
                 }
@@ -108,10 +126,10 @@ class DPT_Product_Meta_Box {
         </script>
         <div class="form-group">
             <label for="dpt-portfolio-gallery">گالری نمونه کار</label>
-            <input type="text" value="<?php ?>" class="regular-text process_custom_images form-control" id="dpt-portfolio-gallery" name="dpt_portfolio_gallery"> <!--max="" min="1" step="1"-->
+            <input type="hidden" value="<?php ?>" class="regular-text process_custom_images form-control" id="dpt-portfolio-gallery" name="dpt_portfolio_gallery"> <!--max="" min="1" step="1"-->
             <button class="set_custom_images button btn-btn-primary">انتخاب عکس ها</button>
         </div>
-        <div class="row">
+        <div class="row portfolio-gallery">
             <?php
             echo $this->RenderPortfolioGallery($post_id);
             ?>
@@ -172,20 +190,18 @@ class DPT_Product_Meta_Box {
                 $mydata['product_picture'] = sanitize_text_field($_POST['product_picture']);
                 $products = new DPT_Products();
                 $xps = $products->Process($post_id);
-//                $i = 0;
-//                $xps = array();
-//                foreach ($_POST as $kp => $vp) {
-//                    if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
-//                        $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
-//                    }
-//                    ++$i;
-//                }
-
-
+                //                $i = 0;
+                //                $xps = array();
+                //                foreach ($_POST as $kp => $vp) {
+                //                    if (!empty($_POST['specific_new' . $i]) && !empty($_POST['specific_detail_new' . $i])) {
+                //                        $xps[$i] = array($_POST['specific_new' . $i], $_POST['specific_detail_new' . $i]);
+                //                    }
+                //                 			$("#obal").after("<img src=" +attachment.url+">");
                 $mydata['usage'] = $_POST['product_usage_elements'];
                 $mydata['facilities'] = $xps;
                 $mydata['sale-terms'] = $_POST['sale_terms_editor'];
                 $mydata['guarantee'] = $_POST['guarantee_editor'];
+                update_post_meta($post_id, 'dpt_front_product', $_POST['dpt_front_page_product']);
                 // Update the meta field.
                 update_post_meta($post_id, 'product_meta', $mydata);
                 break;
@@ -298,7 +314,7 @@ class DPT_Product_Meta_Box {
             }
         }
         // Display the form, using the current value.
-//        print_r($value);
+        //        print_r($value);
         ?>
         <div class="container-fluid dpt">
             <h2>اطلاعات تکمیلی</h2>
@@ -306,79 +322,75 @@ class DPT_Product_Meta_Box {
             <?php
             $count = 0;
             $co = '';
+
+            if (!empty(get_post_meta($post->ID, 'dpt_front_product')[0])) {
+                $che = ' checked="" ';
+            } else {
+                $che = "";
+            }
+
+            echo '<div class="form-check-inline">'
+            . '<label for="dpt-front-page-product" class="form-check-label">'
+            . '<input type="checkbox" value="yes" class="form-check-input" id="dpt-front-page-product" name="dpt_front_page_product" ' . $che . '>نمایش در صفحه اول'
+            . '</label>'
+            . '</div><br /><br />';
+
             if (!empty($value['facilities'])) {
 
                 $co .= "<div class='row'>";
-//                foreach ($value['facilities'] as $kk => $vv) {
-//
-//                    if (strpos($kk, "specific_new") !== FALSE) {
-//                        $co .= '<div class="form-group col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
-//                            <label for="' . $kk . '">ویژگی</label>
-//                            <input type="text" class="span6 form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
-//                            </div>';
-//                        $count = str_replace('specific_new', "", $kk);
-//                    }
-//                    if (strpos($kk, "specific_detail_new") !== FALSE) {
-//                        $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
-//                            <label for="' . $kk . '">توضیح ویژگی</label>
-//                            <input type="text" class="form-control" name="' . $kk . '"  id="' . $kk . '" value="' . $vv . '">
-//                            </div>';
-//                        $count = str_replace('specific_detail_new', "", $kk);
-//                    }
-//                }
+
                 for ($i = 0; $i < sizeof($value['facilities']); $i++) {
                     if (sizeof($value['facilities'][$i]) == 2) {
                         $co .= '<div class="form-group col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
-                            <label for="specific-new' . $i . '">ویژگی</label>
-                            <input type="text" class="span6 form-control" name="specific_new' . $i . '"  id="specific-new' . $i . '" value="' . $value['facilities'][$i][0] . '">
-                            </div>';
+									<label for="specific-new' . $i . '">ویژگی</label>
+									<input type="text" class="span6 form-control" name="specific_new' . $i . '"  id="specific-new' . $i . '" value="' . $value['facilities'][$i][0] . '">
+									</div>';
 
                         $co .= '<div class="form-group col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8">
-                            <label for="specific-detail-new' . $i . '">توضیح ویژگی</label>
-                            <input type="text" class="form-control" name="specific_detail_new' . $i . '"  id="specific-detail-new' . $i . '" value="' . $value['facilities'][$i][1] . '">
-                            </div>';
+									<label for="specific-detail-new' . $i . '">توضیح ویژگی</label>
+									<input type="text" class="form-control" name="specific_detail_new' . $i . '"  id="specific-detail-new' . $i . '" value="' . $value['facilities'][$i][1] . '">
+									</div>';
                         $count = str_replace('specific_detail_new', "", $kk);
                     }//
                 }
                 $co .= "</div>";
             }
-            do_action("jioklokiji");
             $co .= '<fieldset class="todos_labels">
-					<div class="repeatable">' . Repopulator::repopulate("todos_labels", $_POST, $count) . '</div>
-					<div class="form-group">
-						<input type="button" value="دکمه" class="btn btn-default add" />
-					</div>
-				</fieldset>
-                                <script type="text/template" id="todos_labels">' . Repopulator::$templates["todos_labels"]
+							<div class="repeatable">' . Repopulator::repopulate("todos_labels", $_POST, $count) . '</div>
+							<div class="form-group">
+								<input type="button" value="دکمه" class="btn btn-default add" />
+							</div>
+						</fieldset>
+										<script type="text/template" id="todos_labels">' . Repopulator::$templates["todos_labels"]
                     . '</script>'
                     . '<script>
-		$(function() {
-			$(".todos_labels .repeatable").repeatable({
-				addTrigger: ".todos_labels .add",
-				deleteTrigger: ".todos_labels .delete",
-				template: "#todos_labels",
-				startWith: 1,
-				max: 5
-			});
-		});
-		</script>';
+				$(function() {
+					$(".todos_labels .repeatable").repeatable({
+						addTrigger: ".todos_labels .add",
+						deleteTrigger: ".todos_labels .delete",
+						template: "#todos_labels",
+						startWith: 1,
+						max: 5
+					});
+				});
+				</script>';
             $params = array(
                 'gallery' => array(
                     'title' => 'گالری',
                     'content' => '<div class="row">
-                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
-                    <div class="form-group">
-                        <label for="product-gallery-pic-1">عکس اول</label>
-                        <input type="text" name="product_gallery_pic_1" id="product-gallery-pic-1" class="form-control" value="' . $img['first'] . '" placeholder="">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
-                    <div class="form-group">
-                        <label for="product-gallery-pic-2">عکس دوم</label>
-                        <input type="text" name="product_gallery_pic_2" id="product-gallery-pic-2" class="form-control" value="' . $img['second'] . '" placeholder="">
-                    </div>
-                </div>
-            </div>',
+						<div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+							<div class="form-group">
+								<label for="product-gallery-pic-1">عکس اول</label>
+								<input type="text" name="product_gallery_pic_1" id="product-gallery-pic-1" class="form-control" value="' . $img['first'] . '" placeholder="">
+							</div>
+						</div>
+						<div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+							<div class="form-group">
+								<label for="product-gallery-pic-2">عکس دوم</label>
+								<input type="text" name="product_gallery_pic_2" id="product-gallery-pic-2" class="form-control" value="' . $img['second'] . '" placeholder="">
+							</div>
+						</div>
+					</div>',
                     'active' => 'Yes'
                 ),
                 'facilities' => array(
@@ -389,38 +401,38 @@ class DPT_Product_Meta_Box {
                 'usage' => array(
                     'title' => 'موارد استفاده',
                     'content' => '<div class="row">
-                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
-                    <div class="form-group">
-                        <label for="product-usage-elements">موارد استفاده</label>
-                        <input type="text" name="product_usage_elements" id="product-usage-elements" class="form-control" value="' . $u1 . '" placeholder="">
-                            <p>جدا کننده هر مورد , می باشد.</p>
-                    </div>
-                </div>
-                </div>',
+						<div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+							<div class="form-group">
+								<label for="product-usage-elements">موارد استفاده</label>
+								<input type="text" name="product_usage_elements" id="product-usage-elements" class="form-control" value="' . $u1 . '" placeholder="">
+									<p>جدا کننده هر مورد , می باشد.</p>
+							</div>
+						</div>
+						</div>',
                     'active' => 'No'
                 ),
                 'product-picture' => array(
                     'title' => 'تصویر محصول',
                     'content' => '<div class="row">
-                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
-                    <div class="form-group">
-                        <label for="product-picture">تصویر محصول</label>
-                        <input type="text" name="product_picture" id="product-picture" class="form-control" value="' . $u5 . '" placeholder="">
-                    </div>
-                </div>
-                </div>',
+						<div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+							<div class="form-group">
+								<label for="product-picture">تصویر محصول</label>
+								<input type="text" name="product_picture" id="product-picture" class="form-control" value="' . $u5 . '" placeholder="">
+							</div>
+						</div>
+						</div>',
                     'active' => 'No'
                 ),
                 'background-img' => array(
                     'title' => 'تصویر پیش زمینه',
                     'content' => '<div class="row">
-                <div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
-                    <div class="form-group">
-                        <label for="product-background-img">تصویر پیش زمینه</label>
-                        <input type="text" name="product_background_img" id="product-background-img" class="form-control" value="' . $u6 . '" placeholder="">
-                    </div>
-                </div>
-                </div>',
+						<div class="col-lg-6 col-12 col-md-6 col-xl-6 col-sm-12">
+							<div class="form-group">
+								<label for="product-background-img">تصویر پیش زمینه</label>
+								<input type="text" name="product_background_img" id="product-background-img" class="form-control" value="' . $u6 . '" placeholder="">
+							</div>
+						</div>
+						</div>',
                     'active' => 'No'
                 ),
             );

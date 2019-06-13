@@ -1,7 +1,5 @@
 <?php
-
 require_once("Repopulator.php");
-
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -18,49 +16,49 @@ require_once("Repopulator.php");
     </head>
     <body>
 
-    	<div class="container">
+        <div class="container">
 
-    		<div class="page-header">
-		    	<h1>One repeatable</h1>
-		    </div>
+            <div class="page-header">
+                <h1>One repeatable</h1>
+            </div>
 
-			<form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
-				<fieldset class="todos">
+                <fieldset class="todos">
 
-					<legend>To Do List</legend>
+                    <legend>To Do List</legend>
 
-					<div class="repeatable"><?php Repopulator::repopulate("todos", $_POST); ?></div>
+                    <div class="repeatable"><?php Repopulator::repopulate("todos", $_POST); ?></div>
 
-					<div class="form-group">
-						<input type="button" value="Add Todo Item" class="btn btn-default add" />
-					</div>
+                    <div class="form-group">
+                        <input type="button" value="Add Todo Item" class="btn btn-default add" />
+                    </div>
 
-				</fieldset>
+                </fieldset>
 
-				<div class="form-group">
-					<input type="submit" value="Submit" class="btn btn-primary" />
-				</div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
 
-			</form>
+            </form>
 
-		</div>
+        </div>
 
-		<script type="text/template" id="todos">
-		<?php echo Repopulator::$templates["todos"]; ?>
-		</script>
+        <script type="text/template" id="todos">
+            <?php echo Repopulator::$templates["todos"]; ?>
+        </script>
 
-		<script>
-		$(function() {
-			$(".todos .repeatable").repeatable({
-				addTrigger: ".todos .add",
-				deleteTrigger: ".todos .delete",
-				template: "#todos",
-				min: 2,
-				max: 5
-			});
-		});
-		</script>
+        <script>
+            $(function () {
+                $(".todos .repeatable").repeatable({
+                    addTrigger: ".todos .add",
+                    deleteTrigger: ".todos .delete",
+                    template: "#todos",
+                    min: 2,
+                    max: 5
+                });
+            });
+        </script>
 
     </body>
 </html>

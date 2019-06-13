@@ -35,7 +35,7 @@ class DPT_Menus {
             'design_section'
         );
         $v = array();
-        require_once get_template_directory()."/admin/Front-Page.php";
+        require_once get_template_directory() . "/admin/Front-Page.php";
 //        $this->Main(
 //                array(
 //                    'page' => 'front-page',

@@ -47,27 +47,27 @@ class DPT_Rest_Api {
         $qoute_text = !isset($data['qoute_text']) ? "" : $data['qoute_text'];
         $Response['status'] = 200;
         /* Required items */
-        if(empty($product_id)){
+        if (empty($product_id)) {
             $Response['status'] = 403;
             $Response['message'] = "محصول اجباری میباشد.";
         }
-        if(empty($mobile)){
+        if (empty($mobile)) {
             $Response['status'] = 403;
             $Response['message'] = "محصول اجباری میباشد.";
         }
-        if(empty($name)){
+        if (empty($name)) {
             $Response['status'] = 403;
             $Response['message'] = "محصول اجباری میباشد.";
         }
-        if(empty($email)){
+        if (empty($email)) {
             $Response['status'] = 403;
             $Response['message'] = "محصول اجباری میباشد.";
         }
-        if(empty($qoute_text)){
+        if (empty($qoute_text)) {
             $Response['status'] = 403;
             $Response['message'] = "محصول اجباری میباشد.";
         }
-        
+
         if ($item_key) {
             $data = WC()->cart->get_cart_item($item_key);
             do_action('wc_cart_rest_add_to_cart', $item_key, $data);

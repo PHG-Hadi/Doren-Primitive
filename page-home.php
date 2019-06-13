@@ -8,6 +8,8 @@ get_header();
 
 <?php get_template_part('template-parts/front-page/recent', 'blogs'); ?>
 
+<?php get_template_part('template-parts/front-page/recent', 'customers'); ?>
+
 <!--  creative comunication section -->
 <section>
     <div class="container">
