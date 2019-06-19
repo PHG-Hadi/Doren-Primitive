@@ -1,6 +1,6 @@
 <div class="search-overlay">
     <div class="container text-center position-relative">
-        <form id="searchform" class="form-inline d-inline-block" role="search" method="get" action="<?php esc_url(home_url('/')) ?>">
+        <form id="searchform" class="form-inline d-inline-block" role="search" method="get" action="<?php esc_url( home_url( '/' ) ) ?>">
             <button class="btn close-btn">
                 <i class="fa fa-remove"></i>
             </button>

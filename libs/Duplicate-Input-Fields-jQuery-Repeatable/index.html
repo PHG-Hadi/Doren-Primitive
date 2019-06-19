@@ -5,102 +5,99 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>jQuery repeatable.js Plugin Demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="example/css/styles.css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" type="text/css">
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script src="jquery.repeatable.js"></script>
-        <style>
-            body { background-color:#f7f7f7; margin:150px auto;}
-        </style>
+<style>
+body { background-color:#f7f7f7; margin:150px auto;}
+</style>
     </head>
     <body>
 
-        <div id="jquery-script-menu">
-            <div class="jquery-script-center">
-                <ul>
-                    <li><a href="https://www.jqueryscript.net/form/Duplicate-Input-Fields-jQuery-Repeatable.html">Download This Plugin</a></li>
-                    <li><a href="https://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
-                </ul>
-                        <div class="jquery-script-ads"><script type="text/javas                cript"><!--
-google_ad_client = "ca-pub-2783044                520727903";
-/* jQu                ery_demo */
-google_ad_slot = "2                780937993";
-google_ad_w                idth = 728;
-google_ad_h                eight                             = 90;
-//--                                                  >
-                                      </script>
-<script typ                                                                        e="text/javascript"
-                    src="https://pagead2.googlesyndicati                            on.com/pagead/sh                                ow_ads.js">
-                </script></div>
-<div cla                    ss="jqu                                 ery-                scr                ipt-clea                r"></div>
+<div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="https://www.jqueryscript.net/form/Duplicate-Input-Fields-jQuery-Repeatable.html">Download This Plugin</a></li>
+<li><a href="https://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
 </div>
-</div       >
+</div>
     	<div class="container">
 
-                              <div class="page-header">
-		    	<h1>jQuery                    repeat                    able.js      Plugin Demo</h1>
-		 </div>
+    		<div class="page-header">
+		    	<h1>jQuery repeatable.js Plugin Demo</h1>
+		    </div>
 
-		<form class="form-horizontal">
+			<form class="form-horizontal">
 
-				<               fieldset class="todos_la                        bels">
+				<fieldset class="todos_labels">
 
-				<div class="repeatable"></div>
+					<div class="repeatable"></div>
 
-					<div class="form-gro                                                up" style="text-align:center;">
-						<input type="button" value="Add Todo Item" class="btn b                            tn-default ad                                           d" align="center"      >
-					</div       >
+					<div class="form-group" style="text-align:center;">
+						<input type="button" value="Add Todo Item" class="btn btn-default add" align="center">
+					</div>
 
-</f   ieldset>
+				</fieldset>
 
 			</form>
 
 		</div>
 
-            <script type="te                    xt/template" id="todos_labels">
-                        <div class="field-group ro                    w">
+		<script type="text/template" id="todos_labels">
+      <div class="field-group row">
   			<div class="col-lg-6">
-  			<label fo                    r="task_{?}">Task to do</label>
-  			<input type="text" class="span6 form-control" name="todos_labels[{?}][task]                                          " value="{ta                                          sk}" id="task_{?}">
-                              </d                    iv>
-                    <div c                        lass="col-lg-3">
-                    <label for                    ="duedate_{?}">Due date</label>
-                    <input type="text" class="span2 form-contr                        ol" name="todos_labels[{?}][du                        edate]" valu                                      e="{duedat                    e}" id="duedate_{?}"                        >
-                    <                    /div>
-                    <div class="col-lg-3">
-                    <                    labe        l for=""                        >Action</label><br>
-                      <input type="button" class="btn                 btn-danger s                    pan-2 dele                    te" value="                Remove" />
-    </div>
-                    </div>
-            </scrip                        t>
+  			<label for="task_{?}">Task to do</label>
+  			<input type="text" class="span6 form-control" name="todos_labels[{?}][task]" value="{task}" id="task_{?}">
+  			</div>
+  			<div class="col-lg-3">
+  			<label for="duedate_{?}">Due date</label>
+  			<input type="text" class="span2 form-control" name="todos_labels[{?}][duedate]" value="{duedate}" id="duedate_{?}">
+			</div>
+			<div class="col-lg-3">
+			<label for="">Action</label><br>
+  			<input type="button" class="btn btn-danger span-2 delete" value="Remove" />
+			</div>
+  		</div>
+		</script>
 
-<script>
-            $(function() {
-			$(".todos_labe                                ls .repeatable").repeatable({
-				addT                                rigger: ".todos_labels .add",
-				deleteTrig                                ger: ".todos_labels .delete                        ",
-	                   template: "#tod    os_labels",                        
-				st                artWit                    h: 1,
-				ma                    x: 5
-                  });
-            });
-</script>
+		<script>
+		$(function() {
+			$(".todos_labels .repeatable").repeatable({
+				addTrigger: ".todos_labels .add",
+				deleteTrigger: ".todos_labels .delete",
+				template: "#todos_labels",
+				startWith: 1,
+				max: 5
+			});
+		});
+		</script>
 <script type="text/javascript">
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36251023-1']);
-    _gaq.push(['_setDomainName', 'jqueryscript.net']);
-    _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
 
-    (function () {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.in                    sertBefore(ga, s);
-    })();
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
 
 </script>
     </body>

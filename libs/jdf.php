@@ -26,7 +26,7 @@ function jdate($format, $timestamp = '', $none = '', $time_zone = 'Asia/Tehran',
     for ($i = 0; $i < $sl; $i++) {
         $sub = substr($format, $i, 1);
         if ($sub == '\\') {
-            $out .= substr($format, ++$i, 1);
+            $out .= substr($format,  ++$i, 1);
             continue;
         }
         switch ($sub) {
@@ -236,7 +236,7 @@ function jstrftime($format, $timestamp = '', $none = '', $time_zone = 'Asia/Tehr
     for ($i = 0; $i < $sl; $i++) {
         $sub = substr($format, $i, 1);
         if ($sub == '%') {
-            $sub = substr($format, ++$i, 1);
+            $sub = substr($format,  ++$i, 1);
         } else {
             $out .= $sub;
             continue;

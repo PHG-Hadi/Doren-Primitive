@@ -1,4 +1,5 @@
 <?php
+
 foreach ($AllP as $vv) {
     if (!empty($option['front'][$vv])) {
         $v['front'][$vv] = $option['front'][$vv];

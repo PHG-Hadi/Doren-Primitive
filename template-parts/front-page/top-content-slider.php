@@ -1,5 +1,5 @@
 <?php
-$template_url = get_template_directory_uri();
+$template_url= get_template_directory_uri();
 ?>
 
 <div class="row">

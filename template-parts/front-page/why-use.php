@@ -1,6 +1,6 @@
 <?php
-$template_url = get_template_directory_uri();
-$option = get_option('dpt_theme_touch_options');
+	$template_url= get_template_directory_uri();
+	$option = get_option('dpt_theme_touch_options');
 ?>
 
 <!-- why-us section -->
@@ -17,7 +17,7 @@ $option = get_option('dpt_theme_touch_options');
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#design" role="tab" aria-controls="design"
                                aria-selected="true">                                
-                                <img src="<?php echo!empty($option['front']['DesignSectionLogo']) ? $option['front']['DesignSectionLogo'] : ""; ?>" />
+                                <img src="<?php echo !empty($option['front']['DesignSectionLogo'])?  $option['front']['DesignSectionLogo']:  "";?>" />
                                 <h3>طراحی</h3>
                             </a>
                         </li>
@@ -38,46 +38,46 @@ $option = get_option('dpt_theme_touch_options');
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
-                            <?php echo $option['front']['design-section'] ?>
-                            <ol>
-                                <li class="col-sm-12">
-                                    <div class="col-md-2 col-sm-12">
-                                        <img src="<?php echo $template_url; ?>/assets/images/inventory.png" />
-                                    </div>
-                                    <div class="col-md-10 col-sm-12">
-                                        <h3>در هر تعدادی که شما نیاز دارید</h3>
-                                        <p>
-                                            پارس‌تاچ می داند که سفارش شما ممکن است از یک تا چند هزار دستگاه لمسی
-                                            باشد، بنابراین مفهومی تحت عنوان حداقل تعداد سفارش وجود ندارد. چه برای
-                                            تهیه‌ی پروتوتایپ محصول شما و چه برای تولید انبوه، ما بی اندازه منعطف
-                                            هستیم.
-                                        </p>
-                                    </div>
-
-                                </li>
-                                <li class="col-sm-12">
-                                    <div class="col-md-2 col-sm-12">
-                                        <img src="<?php echo $template_url; ?>/assets/images/shipping.png" />
-                                    </div>
-                                    <div class="col-md-10 col-sm-12">
-                                        <h3>در اندازه ‌ی دلخواه شما</h3>
-                                        <p>
-                                            پارس‌تاچ در تولید طیف تقریبا نامحدودی از اشکال و ابعاد صفحات لمسی و تعاملی، شما را همراهی می‌کند. شما می‌توانید محصولی داشته باشید که مخصوص برند شما تعبیه شده اند. از صفحات منحنی گرفته تا استفاده از لوگوی شما، تیم طراحان پارس تاچ با شماست.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="col-sm-12">
-                                    <div class="col-md-2 col-sm-12">
-                                        <img src="<?php echo $template_url; ?>/assets/images/checking.png" />
-                                    </div>
-                                    <div class="col-md-10 col-sm-12">
-                                        <h3>منطبق با آخرین استانداردهای روز دنیا</h3>
-                                        <p>
-                                            محصولات پارس‌تاچ همسو و همگام با آخرین فناوری ها و استانداردهای حوزه های سخت افزاری و نرم افزاری تهیه و تولید می‌شوند. محصولات دانش بنیان پارس‌تاچ هرروز ویژگی های جدیدی برای شگفت زده کردن شما و مشتریان شما با خود خواهند داشت.
-                                        </p>
-                                    </div>
-                                </li>
-                            </ol>
+                            <?php  echo $option['front']['design-section'] ?>
+                                                        <ol>
+                                                            <li class="col-sm-12">
+                                                                <div class="col-md-2 col-sm-12">
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/inventory.png" />
+                                                                </div>
+                                                                <div class="col-md-10 col-sm-12">
+                                                                    <h3>در هر تعدادی که شما نیاز دارید</h3>
+                                                                    <p>
+                                                                        پارس‌تاچ می داند که سفارش شما ممکن است از یک تا چند هزار دستگاه لمسی
+                                                                        باشد، بنابراین مفهومی تحت عنوان حداقل تعداد سفارش وجود ندارد. چه برای
+                                                                        تهیه‌ی پروتوتایپ محصول شما و چه برای تولید انبوه، ما بی اندازه منعطف
+                                                                        هستیم.
+                                                                    </p>
+                                                                </div>
+                           
+                                                            </li>
+                                                            <li class="col-sm-12">
+                                                                <div class="col-md-2 col-sm-12">
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/shipping.png" />
+                                                                </div>
+                                                                <div class="col-md-10 col-sm-12">
+                                                                    <h3>در اندازه ‌ی دلخواه شما</h3>
+                                                                    <p>
+                                                                        پارس‌تاچ در تولید طیف تقریبا نامحدودی از اشکال و ابعاد صفحات لمسی و تعاملی، شما را همراهی می‌کند. شما می‌توانید محصولی داشته باشید که مخصوص برند شما تعبیه شده اند. از صفحات منحنی گرفته تا استفاده از لوگوی شما، تیم طراحان پارس تاچ با شماست.
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="col-sm-12">
+                                                                <div class="col-md-2 col-sm-12">
+                                                                    <img src="<?php echo $template_url; ?>/assets/images/checking.png" />
+                                                                </div>
+                                                                <div class="col-md-10 col-sm-12">
+                                                                    <h3>منطبق با آخرین استانداردهای روز دنیا</h3>
+                                                                    <p>
+                                                                        محصولات پارس‌تاچ همسو و همگام با آخرین فناوری ها و استانداردهای حوزه های سخت افزاری و نرم افزاری تهیه و تولید می‌شوند. محصولات دانش بنیان پارس‌تاچ هرروز ویژگی های جدیدی برای شگفت زده کردن شما و مشتریان شما با خود خواهند داشت.
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
                         </div>
                         <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
                             <?php
