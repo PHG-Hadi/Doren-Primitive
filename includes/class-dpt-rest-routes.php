@@ -15,15 +15,15 @@ class DPT_Rest_Routes {
     }
 
     function ProductForm(WP_REST_Request $request) {
-        $FormBody = $request->get_body();
-    }
-
-    function MobileValidation($mobile) {
-        if (preg_match('/^09[0-9]{9}$/', $mobile)):
-            return TRUE;
-        else:
-            return FALSE;
-        endif;
+        $FormBody = json_decode($request->get_body());
+        $FormHeader = $request->get_headers();
+        if ($FormHeader == 'json') {
+            $p_id = $FormBody['product_id'];
+            $name = $FormBody['name'];
+            $message = $FormBody['message'];
+            $mobile = $FormBody['mobile'];
+            $email = $FormBody['email'];
+        }
     }
 
 }
